@@ -2,4 +2,4 @@
 
 base=`dirname $PWD/$0`/..
 export CLASSPATH="$base/bin/jrmi-example.jar:$base/lib/*"
-java edu.cmu.courses.rmi.RemoteServerMain -r edu.cmu.courses.rmiexample.server.HelloWorldImpl@hello
+java edu.cmu.courses.rmi.server.RemoteServerMain -r edu.cmu.courses.rmiexample.server.HelloWorldImpl@hello

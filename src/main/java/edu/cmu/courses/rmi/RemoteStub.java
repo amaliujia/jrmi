@@ -53,11 +53,17 @@ public abstract class RemoteStub implements Serializable{
      * @throws RemoteException if any exception raised
      */
     protected Object invoke(Method method, long methodHash, Object[] params)
-        throws Exception{
+        throws RemoteException{
         if(ref == null){
-            throw new Exception("No reference in remote object");
+            throw new RemoteException("No reference in remote object");
         } else {
-            return ref.invoke(method, methodHash, params);
+            try {
+                return ref.invoke(method, methodHash, params);
+            } catch (RemoteException e) {
+                throw e;
+            } catch (Exception e){
+                throw new UnknownException("Unknown exception", e);
+            }
         }
     }
 }

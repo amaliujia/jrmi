@@ -1,5 +1,7 @@
-package edu.cmu.courses.rmi;
+package edu.cmu.courses.rmi.server;
 
+import edu.cmu.courses.rmi.RemoteConnection;
+import edu.cmu.courses.rmi.ConnectionException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -37,9 +39,9 @@ public class RemoteServerWorker implements Runnable {
 
     @Override
     public void run() {
-        Connection connection = null;
+        DispatchConnection connection = null;
         try {
-            connection = new Connection(socket);
+            connection = new DispatchConnection(socket);
             connection.dispatch();
         } catch (ConnectionException e) {
             LOG.error("Failed to create connection for socket" +

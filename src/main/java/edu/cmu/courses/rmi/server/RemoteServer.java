@@ -1,4 +1,4 @@
-package edu.cmu.courses.rmi;
+package edu.cmu.courses.rmi.server;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

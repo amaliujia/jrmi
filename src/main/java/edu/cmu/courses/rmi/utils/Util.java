@@ -1,9 +1,11 @@
-package edu.cmu.courses.rmi;
+package edu.cmu.courses.rmi.utils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.security.DigestOutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -15,6 +17,11 @@ import java.security.NoSuchAlgorithmException;
  * @author Fangyu Gao
  */
 public class Util {
+    public static String getHost()
+            throws UnknownHostException {
+        InetAddress inetAddress = InetAddress.getLocalHost();
+        return inetAddress.getHostAddress();
+    }
     /**
      * Compute the "method hash" of a remote method.  The method hash
      * is a long containing the first 64 bits of the SHA digest from

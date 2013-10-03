@@ -8,7 +8,7 @@ package edu.cmu.courses.rmi;
  * @author Jian Fang
  * @author Fangyu Gao
  */
-public class IllegalStubException extends Exception{
+public class IllegalStubException extends RemoteException{
     /**
      * Constructor of <code>IllegalStubException</code> with the
      * specified message

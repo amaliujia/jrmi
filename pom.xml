@@ -84,20 +84,6 @@
                             <outputDirectory>${project.basedir}/bin</outputDirectory>
                         </configuration>
                     </execution>
-                    <execution>
-                        <id>registry</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                        <configuration>
-                            <includes>
-                                <include>edu/cmu/courses/rmiregistry/**/*</include>
-                            </includes>
-                            <finalName>jrmi-registry</finalName>
-                            <outputDirectory>${project.basedir}/bin</outputDirectory>
-                        </configuration>
-                    </execution>
                 </executions>
             </plugin>
             <plugin>

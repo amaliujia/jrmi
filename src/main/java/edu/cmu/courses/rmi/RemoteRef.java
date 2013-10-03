@@ -44,10 +44,14 @@ public class RemoteRef implements Serializable {
      * @param port the remote host's port
      */
     public RemoteRef(String host, int port, String className){
+        this(host, port, className, idCounter.getAndIncrement());
+    }
+
+    public RemoteRef(String host, int port, String className, long id){
         this.host = host;
         this.port = port;
         this.className = className;
-        this.id = idCounter.getAndIncrement();
+        this.id = id;
     }
 
     /**
@@ -63,7 +67,7 @@ public class RemoteRef implements Serializable {
      */
     public Object invoke(Method method, long methodHash, Object[] params)
         throws Exception{
-        Connection connection = new Connection(host, port);
+        InvokeConnection connection = new InvokeConnection(host, port);
         Object result = connection.invoke(this, method, methodHash, params);
         connection.close();
         return result;
@@ -78,7 +82,10 @@ public class RemoteRef implements Serializable {
      */
     public boolean equals(Object obj){
         if(obj instanceof RemoteRef){
-            return this.id == ((RemoteRef)obj).id;
+            return (this.id == ((RemoteRef)obj).id &&
+                    this.host == ((RemoteRef) obj).host &&
+                    this.port == ((RemoteRef) obj).port &&
+                    this.className == ((RemoteRef) obj).className);
         }
         return false;
     }
@@ -102,5 +109,13 @@ public class RemoteRef implements Serializable {
         } catch (IllegalAccessException e) {
             throw new IllegalStubException("Cannot access the stub constructor", e);
         }
+    }
+
+    public long getId(){
+        return id;
+    }
+
+    public String toString(){
+        return id + "[" + className + "@" + host + ":" + port + "]";
     }
 }

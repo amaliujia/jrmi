@@ -7,7 +7,7 @@ package edu.cmu.courses.rmi;
  * @author Jian Fang
  * @author Fangyu Gao
  */
-public class NoSuchStubException extends Exception {
+public class NoSuchStubException extends RemoteException {
     /**
      * Constructor of <code>NoSuchStubException</code> with the
      * specified message

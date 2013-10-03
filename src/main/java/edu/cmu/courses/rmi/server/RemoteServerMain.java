@@ -1,8 +1,12 @@
-package edu.cmu.courses.rmi;
+package edu.cmu.courses.rmi.server;
 
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
+import edu.cmu.courses.rmi.*;
+import edu.cmu.courses.rmi.registry.LocateRegistry;
+import edu.cmu.courses.rmi.registry.Registry;
+import edu.cmu.courses.rmi.utils.Util;
 import edu.cmu.courses.rmi.validators.PoolSizeValidator;
 import edu.cmu.courses.rmi.validators.PortValidator;
 import edu.cmu.courses.rmi.validators.RemoteFormatValidator;
@@ -22,6 +26,15 @@ public class RemoteServerMain {
                validateWith = PortValidator.class)
     private int port = 15440;
 
+    @Parameter(names = {"-R", "--registry"},
+            description = "the host of registry server")
+    private String registryHost = null;
+
+    @Parameter(names = {"-P", "--registry-port"},
+            description = "the listening port of registry server",
+            validateWith = PortValidator.class)
+    private int registryPort = Registry.REGISTRY_PORT;
+
     @Parameter(names = {"-t", "--threads"},
                description = "the size of the thread pool",
                validateWith = PoolSizeValidator.class)
@@ -38,48 +51,60 @@ public class RemoteServerMain {
     private Thread serverThread;
 
     public RemoteServerMain() throws UnknownHostException {
-        host = getHost();
+        host = Util.getHost();
     }
 
-    private static String getHost()
-            throws UnknownHostException {
-        InetAddress inetAddress = InetAddress.getLocalHost();
-        return inetAddress.getHostAddress();
-    }
-
-    private void registerRemoteClass(String className, String serviceName){
+    private boolean registerRemoteClass(String className, String serviceName){
         Class c;
         Remote obj;
+        Registry registry;
         try {
             c = Class.forName(className);
         } catch (ClassNotFoundException e) {
             LOG.error("Can't find class " + className, e);
-            return;
+            return false;
         }
         try {
             obj = (Remote)c.newInstance();
-        } catch (Exception e) {
+        }catch (Exception e) {
             LOG.error("Failed to create class " + className, e);
-            return;
+            return false;
         }
         RemoteRef ref = new RemoteRef(host, port, className);
         RemoteRefTable.addObject(ref, obj);
+        try {
+            registry = LocateRegistry.getRegistry(registryHost, registryPort);
+        } catch (RemoteException e) {
+            LOG.error("Can't communicate with registry server", e);
+            return false;
+        }
+        try {
+            if(registry.lookup(serviceName) == null)
+                registry.bind(serviceName, ref);
+        } catch (Exception e) {
+            LOG.error("Failed to bind " + serviceName + " for class " + className, e);
+            return false;
+        }
+        return true;
     }
 
-    private void registerRemoteClasses(){
+    private boolean registerRemoteClasses(){
         for(String remote: remotes){
             String[] words = remote.split("@");
             String className = words[0];
             String serviceName = words[1];
-            registerRemoteClass(className, serviceName);
+            if(!registerRemoteClass(className, serviceName)){
+                return false;
+            }
         }
+        return true;
     }
 
     private void startServer(){
         server = new RemoteServer(host, port, poolSize);
         serverThread = new Thread(server);
-        registerRemoteClasses();
-        serverThread.start();
+        if(registerRemoteClasses())
+            serverThread.start();
     }
 
     public static void main(String[] args) {
