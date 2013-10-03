@@ -116,6 +116,7 @@ public class Connection {
                 out.writeByte(ConnectionConstants.RETURN);
                 out.writeByte(ConnectionConstants.EXCEPTION_RETURN);
                 out.writeObject(new UnmarshalException("Invalid remote call code"));
+                return;
             }
             RemoteRef ref = (RemoteRef)in.readObject();
             Remote obj = RemoteRefTable.findObject(ref);
@@ -123,6 +124,7 @@ public class Connection {
                 out.writeByte(ConnectionConstants.RETURN);
                 out.writeByte(ConnectionConstants.EXCEPTION_RETURN);
                 out.writeObject(new NoSuchObjectException("Can't find object " + ref.id));
+                return;
             }
 
             Method method = RemoteRefTable.findObjectMethod(obj, in.readLong());
@@ -130,6 +132,7 @@ public class Connection {
                 out.writeByte(ConnectionConstants.RETURN);
                 out.writeByte(ConnectionConstants.EXCEPTION_RETURN);
                 out.writeObject(new UnmarshalException("Can unmarshal the specific method"));
+                return;
             }
             dispatchMethod(obj, method);
             out.flush();
@@ -305,6 +308,7 @@ public class Connection {
             out.writeByte(ConnectionConstants.RETURN);
             out.writeByte(ConnectionConstants.EXCEPTION_RETURN);
             out.writeObject(new UnmarshalException("Failed to unmarshal method parameter", e));
+            return;
         }
         try {
             Object result = method.invoke(obj, params);
