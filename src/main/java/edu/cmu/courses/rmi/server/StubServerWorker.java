@@ -3,6 +3,7 @@ package edu.cmu.courses.rmi.server;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -36,20 +37,29 @@ public class StubServerWorker implements Runnable{
     	try{
 	    	ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
 	    	ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-	    	String stubClassName = in.readLine();
+	    	String stubClassName = (String) in.readObject();
 	    	System.out.println(System.getProperty("user.dir") + "\\target\\classes\\"
-	    			+ stubClassName.replaceAll(".", "\\") + "_stub.class");
-	    	BufferedReader reader = new BufferedReader(new FileReader(
+	    			+ stubClassName.replace('.', '\\') + ".class");
+	    	FileReader reader = new FileReader(
 	    			System.getProperty("user.dir") + "\\target\\classes\\"
-	    			+ stubClassName.replaceAll(".", "\\") + "_stub.class"));
-	    	int data;
-	    	while((data =reader.read()) != -1) {
-	    		out.write(data);
+	    			+ stubClassName.replace('.', '\\') + ".class");
+	    	byte data;
+;	    	//InputStream input = socket.getInputStream();
+			int count = 0;
+	    	while((data =(byte) reader.read()) != -1) {
+	    		System.out.println(data*10000);
+	    		System.out.println(++count);
+	    		out.writeByte(data);
+	    		out.flush();
 	    	}
+	    	//out.writeByte(-1);
 	    	socket.close();
 	    	reader.close();
     	}catch(IOException ex) {
     		LOG.error("Stub Server error", ex);
-    	}
+    	} catch (ClassNotFoundException e) {
+    		LOG.error("Stub Server error", e);
+			e.printStackTrace();
+		}
     }
 }

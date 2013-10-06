@@ -25,18 +25,22 @@ public class StubClassLoader extends ClassLoader{
     	Socket socket = new Socket(host, port);
     	ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
     	ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-    	out.writeByte(ConnectionConstants.CALL);
-        out.writeChars(stubClassName);
+    	//out.writeByte(ConnectionConstants.CALL);
+    	out.writeObject(stubClassName);
+        //out.writeChars(stubClassName);
         
-        int data;
+        byte data;
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-        while((data = in.read()) != -1) {
+        int count = 0;
+        while((data = (byte) in.read()) != -1) {
+    		System.out.println(data*10000);
+    		System.out.println(++count);
         	buffer.write(data);
         }
         out.close();
         in.close();
-        buffer.close();
         byte[] classData = buffer.toByteArray();
+        buffer.close();
         return defineClass(stubClassName, classData, 0, classData.length);
     }
 }
