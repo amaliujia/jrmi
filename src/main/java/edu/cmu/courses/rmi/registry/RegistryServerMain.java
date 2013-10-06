@@ -29,10 +29,22 @@ public class RegistryServerMain {
     private String host;
     private Thread serverThread;
 
+    /**
+     * Constructor of <code>RegistryServerMain</code>
+     * Get the ip of this host.
+     * 
+     * @see edu.cmu.courses.rmi.utils.Util#getHost()
+     */
     public RegistryServerMain() throws UnknownHostException {
         host = Util.getHost();
     }
 
+    /**
+     * Start a <code>RemoteServer</code>
+     * Get the ip of this host.
+     * 
+     * @see edu.cmu.courses.rmi.utils.Util#getHost()
+     */
     public void startServer(){
         RemoteRef ref = new RemoteRef(host, port,
                 RegistryImpl.class.getName(), Registry.REGISTRY_OBJID);
@@ -41,7 +53,13 @@ public class RegistryServerMain {
         serverThread = new Thread(new RemoteServer(host, port, poolSize));
         serverThread.start();
     }
-
+    /**
+     * Main function.
+     * Start <code>RegistryServerMain</code> and parsing the arguments
+     *
+     * @param args program augments
+     * @see edu.cmu.courses.rmi.registry.RegistryServerMain#registryServerMain()
+     */
     public static void main(String[] args) {
         RegistryServerMain registryServerMain = null;
         try{

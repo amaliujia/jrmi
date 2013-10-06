@@ -3,6 +3,7 @@ package edu.cmu.courses.rmi.server;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
+
 import edu.cmu.courses.rmi.*;
 import edu.cmu.courses.rmi.registry.LocateRegistry;
 import edu.cmu.courses.rmi.registry.Registry;
@@ -10,9 +11,11 @@ import edu.cmu.courses.rmi.utils.Util;
 import edu.cmu.courses.rmi.validators.PoolSizeValidator;
 import edu.cmu.courses.rmi.validators.PortValidator;
 import edu.cmu.courses.rmi.validators.RemoteFormatValidator;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -54,7 +57,7 @@ public class RemoteServerMain {
         host = Util.getHost();
     }
 
-    private boolean registerRemoteClass(String className, String serviceName){
+    private boolean registerRemoteClass(String className, String serviceName) throws UnknownHostException, IOException{
         Class c;
         Remote obj;
         Registry registry;
@@ -88,7 +91,7 @@ public class RemoteServerMain {
         return true;
     }
 
-    private boolean registerRemoteClasses(){
+    private boolean registerRemoteClasses() throws UnknownHostException, IOException{
         for(String remote: remotes){
             String[] words = remote.split("@");
             String className = words[0];
@@ -100,14 +103,18 @@ public class RemoteServerMain {
         return true;
     }
 
-    private void startServer(){
+    private void startServer() throws UnknownHostException, IOException{
         server = new RemoteServer(host, port, poolSize);
         serverThread = new Thread(server);
         if(registerRemoteClasses())
             serverThread.start();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws UnknownHostException, IOException {
+    	StubServer ss = new StubServer(Stub.STUB_PORT, 32);
+    	Thread stubServer = new Thread(ss);
+    	stubServer.start();
+
         RemoteServerMain main = null;
         try {
             main = new RemoteServerMain();

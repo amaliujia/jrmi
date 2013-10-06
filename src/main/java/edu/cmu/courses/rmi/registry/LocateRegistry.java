@@ -4,6 +4,7 @@ import edu.cmu.courses.rmi.RemoteException;
 import edu.cmu.courses.rmi.RemoteRef;
 import edu.cmu.courses.rmi.utils.Util;
 
+import java.io.IOException;
 import java.net.UnknownHostException;
 
 public final class LocateRegistry {
@@ -13,22 +14,28 @@ public final class LocateRegistry {
     private LocateRegistry(){}
 
     public static Registry getRegistry()
-            throws RemoteException{
+            throws UnknownHostException, IOException{
         return getRegistry(null, Registry.REGISTRY_PORT);
     }
 
     public static Registry getRegistry(int port)
-            throws RemoteException{
+            throws UnknownHostException, IOException{
         return getRegistry(null, port);
     }
 
     public static Registry getRegistry(String host)
-            throws RemoteException{
+            throws UnknownHostException, IOException{
         return getRegistry(host, Registry.REGISTRY_PORT);
     }
 
+    /*
+     * Get or generate a local registry
+     * 
+     * @param host, host name
+     * @param port, registry port
+     */
     public static Registry getRegistry(String host, int port)
-            throws RemoteException{
+            throws UnknownHostException, IOException{
         synchronized (lock){
             if(registry == null){
                 if(host == null)
