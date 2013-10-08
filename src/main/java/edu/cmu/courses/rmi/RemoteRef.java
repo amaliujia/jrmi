@@ -94,9 +94,10 @@ public class RemoteRef implements Serializable {
         return false;
     }
 
-    /*
-     * Initialize a local instance of stub
-     * 
+    /**
+     * Initialize a local instance of stub.
+     * If the stub class don't locally exist,
+     * then download it from server.
      */
     public RemoteStub localise()
             throws UnknownHostException, IOException{
@@ -129,11 +130,16 @@ public class RemoteRef implements Serializable {
         }
     }
 
-
+    /**
+     * get the reference id number
+     */
     public long getId(){
         return id;
     }
 
+    /**
+     * format the reference information
+     */
     public String toString(){
         return id + "[" + className + "@" + host + ":" + port + "]";
     }

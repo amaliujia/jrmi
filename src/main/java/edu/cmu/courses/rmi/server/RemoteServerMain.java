@@ -109,7 +109,13 @@ public class RemoteServerMain {
         if(registerRemoteClasses())
             serverThread.start();
     }
-
+    /**
+     * Main function.
+     * Start <code>StubServer</code> and <code>RemoteServerMain</code>
+     *
+     * @param args program augments
+     * @see edu.cmu.courses.rmi.server.RemoteServerMain#RemoteServerMain()
+     */
     public static void main(String[] args) throws UnknownHostException, IOException {
     	StubServer ss = new StubServer(Stub.STUB_PORT, 32);
     	Thread stubServer = new Thread(ss);

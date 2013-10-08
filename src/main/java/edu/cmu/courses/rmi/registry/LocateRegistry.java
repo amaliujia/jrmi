@@ -7,6 +7,13 @@ import edu.cmu.courses.rmi.utils.Util;
 import java.io.IOException;
 import java.net.UnknownHostException;
 
+/**
+ * A <code>LocateRegistry</code> provide methods
+ * to return registry information from the server.
+ *
+ * @author Jian Fang
+ * @author Fangyu Gao
+ */
 public final class LocateRegistry {
     private static Object lock = new Object();
     private static Registry registry = null;
@@ -28,7 +35,7 @@ public final class LocateRegistry {
         return getRegistry(host, Registry.REGISTRY_PORT);
     }
 
-    /*
+    /**
      * Get or generate a local registry
      * 
      * @param host, host name

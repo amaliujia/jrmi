@@ -37,6 +37,9 @@ public class RemoteServerWorker implements Runnable {
         this.socket = socket;
     }
 
+    /**
+     * Start doing job
+     */
     @Override
     public void run() {
         DispatchConnection connection = null;

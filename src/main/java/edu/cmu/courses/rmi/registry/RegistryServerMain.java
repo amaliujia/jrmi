@@ -13,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.net.UnknownHostException;
 
+
 public class RegistryServerMain {
     private static Logger LOG = LogManager.getLogger(RegistryServerMain.class);
 

@@ -11,7 +11,15 @@ import java.net.Socket;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-
+/**
+ * The <code>StubServerWorker</code> is used to handle
+ * the request for downloading stubs from client.
+ * It implements the <code>Runnable</code>
+ * interface.
+ *
+ * @author Jian Fang
+ * @author Fangyu Gao
+ */
 public class StubServerWorker implements Runnable{
     /**
      * Logger
@@ -23,7 +31,7 @@ public class StubServerWorker implements Runnable{
     private Socket socket;
 
     /**
-     * The constructor of <code>RemoteServerWorker</code> with the
+     * The constructor of <code>StubServerWorker</code> with the
      * request socket
      *
      * @param socket the request socket
@@ -32,6 +40,10 @@ public class StubServerWorker implements Runnable{
         this.socket = socket;
     }
 
+    /**
+     * Start doing job. Looking for the stub name in the directory
+     * and delivery the .class file to client
+     */
     @Override
     public void run() {
     	try{
@@ -44,7 +56,6 @@ public class StubServerWorker implements Runnable{
 	    			System.getProperty("user.dir") + "\\target\\classes\\"
 	    			+ stubClassName.replace('.', '\\') + ".class");
 	    	byte data;
-;	    	//InputStream input = socket.getInputStream();
 			int count = 0;
 	    	while((data =(byte) reader.read()) != -1) {
 	    		System.out.println(data*10000);
@@ -52,7 +63,6 @@ public class StubServerWorker implements Runnable{
 	    		out.writeByte(data);
 	    		out.flush();
 	    	}
-	    	//out.writeByte(-1);
 	    	socket.close();
 	    	reader.close();
     	}catch(IOException ex) {

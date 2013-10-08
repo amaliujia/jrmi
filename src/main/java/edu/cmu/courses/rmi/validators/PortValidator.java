@@ -3,6 +3,13 @@ package edu.cmu.courses.rmi.validators;
 import com.beust.jcommander.IParameterValidator;
 import com.beust.jcommander.ParameterException;
 
+/**
+ * The <code>PortValidator</code> check if the port
+ * number is out of the range.
+ *
+ * @author Jian Fang
+ * @author Fangyu Gao
+ */
 public class PortValidator implements IParameterValidator {
 
     @Override

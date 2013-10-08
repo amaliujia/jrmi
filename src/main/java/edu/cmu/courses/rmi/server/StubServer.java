@@ -12,7 +12,13 @@ import org.apache.logging.log4j.Logger;
 import edu.cmu.courses.rmi.ConnectionException;
 import edu.cmu.courses.rmi.Stub;
 
-
+/**
+ * The <code>StubServer</code> is multi-thread server with giving
+ * port.
+ *
+ * @author Jian Fang
+ * @author Fangyu Gao
+ */
 public class StubServer implements Runnable{
 	private static Logger LOG = LogManager.getLogger(RemoteServerMain.class);
     /**
@@ -65,6 +71,12 @@ public class StubServer implements Runnable{
             threadPool.execute(new StubServerWorker(socket));
         }
     }
+    
+    /**
+     * Assign port number to socket.
+     * 
+     * @throws IOException
+     */
     private void setHost() throws IOException {
         serverSocket = new ServerSocket(port);
     }
