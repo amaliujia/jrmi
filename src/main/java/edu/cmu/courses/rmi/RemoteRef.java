@@ -4,10 +4,6 @@ import java.io.*;
 import java.lang.reflect.Method;
 import java.util.concurrent.atomic.AtomicLong;
 
-import edu.cmu.courses.rmiexample.client.HelloWorldClient;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 /**
  * <code>RemoteRef</code> represents the reference of remote
  * object
@@ -102,7 +98,7 @@ public class RemoteRef implements Serializable {
     public RemoteStub localise()
             throws IOException{
         try{
-        	StubClassLoader classLoader = new StubClassLoader(host, RemoteStub.STUB_PORT, className);
+        	RemoteStubLoader classLoader = new RemoteStubLoader(host, RemoteStub.STUB_PORT, className);
         	Class c = classLoader.getStubClass();
             Object stub = c.newInstance();
             if(stub instanceof RemoteStub){

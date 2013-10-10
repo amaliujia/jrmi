@@ -11,7 +11,7 @@ import java.net.URL;
 
 
 /**
- * The <code>StubClassLoader</code> is a subclass of
+ * The <code>RemoteStubLoader</code> is a subclass of
  * Java ClassLoader class. It use reflection to create
  * class at run time. And it can download Stub class from
  * server if it doesn't exist locally.
@@ -19,11 +19,11 @@ import java.net.URL;
  * @author Jian Fang
  * @author Fangyu Gao
  */
-public class StubClassLoader extends ClassLoader{
+public class RemoteStubLoader extends ClassLoader{
     /**
      * Logger object
      */
-    private static Logger LOG = LogManager.getLogger(StubClassLoader.class);
+    private static Logger LOG = LogManager.getLogger(RemoteStubLoader.class);
 
     private static int READ_BUFFER_SIZE = 4096;
     private static String STUB_SUFFIX = "_Stub";
@@ -43,7 +43,7 @@ public class StubClassLoader extends ClassLoader{
      */
     String implClassName;
 
-	public StubClassLoader(String host,int port, String implClassName){
+	public RemoteStubLoader(String host, int port, String implClassName){
 		this.host = host;
 		this.port = port;
 		this.implClassName = implClassName;
