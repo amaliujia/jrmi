@@ -1,4 +1,4 @@
-package edu.cmu.courses.rmi;
+package edu.cmu.courses.rmi.exceptions;
 
 /**
  * A <code>AlreadyBoundException</code> is someone wants to

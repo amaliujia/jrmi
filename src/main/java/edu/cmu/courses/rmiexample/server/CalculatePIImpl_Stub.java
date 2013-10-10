@@ -2,7 +2,7 @@ package edu.cmu.courses.rmiexample.server;
 
 import java.lang.reflect.Method;
 
-import edu.cmu.courses.rmi.RemoteException;
+import edu.cmu.courses.rmi.exceptions.RemoteException;
 import edu.cmu.courses.rmi.RemoteRef;
 import edu.cmu.courses.rmi.RemoteStub;
 import edu.cmu.courses.rmi.utils.Util;

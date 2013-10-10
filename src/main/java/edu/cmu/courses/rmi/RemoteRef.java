@@ -1,5 +1,7 @@
 package edu.cmu.courses.rmi;
 
+import edu.cmu.courses.rmi.exceptions.IllegalStubException;
+
 import java.io.*;
 import java.lang.reflect.Method;
 import java.util.concurrent.atomic.AtomicLong;

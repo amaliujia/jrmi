@@ -1,4 +1,4 @@
-package edu.cmu.courses.rmi;
+package edu.cmu.courses.rmi.exceptions;
 
 /**
  * A <code>MarshalException</code> is thrown, if something goes

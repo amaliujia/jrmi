@@ -1,8 +1,8 @@
 package edu.cmu.courses.rmi.registry;
 
-import edu.cmu.courses.rmi.AlreadyBoundException;
-import edu.cmu.courses.rmi.NotBoundException;
-import edu.cmu.courses.rmi.RemoteException;
+import edu.cmu.courses.rmi.exceptions.AlreadyBoundException;
+import edu.cmu.courses.rmi.exceptions.NotBoundException;
+import edu.cmu.courses.rmi.exceptions.RemoteException;
 import edu.cmu.courses.rmi.RemoteRef;
 
 import java.util.Set;

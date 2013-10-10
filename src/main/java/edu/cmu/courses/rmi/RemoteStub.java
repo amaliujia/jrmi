@@ -1,5 +1,8 @@
 package edu.cmu.courses.rmi;
 
+import edu.cmu.courses.rmi.exceptions.RemoteException;
+import edu.cmu.courses.rmi.exceptions.UnknownException;
+
 import java.io.Serializable;
 import java.lang.reflect.Method;
 
@@ -55,10 +58,10 @@ public abstract class RemoteStub implements Serializable{
      * @param methodHash the hash value of the method
      * @param params the parameters of the method
      * @return method's return object
-     * @throws RemoteException if any exception raised
+     * @throws edu.cmu.courses.rmi.exceptions.RemoteException if any exception raised
      */
     protected Object invoke(Method method, long methodHash, Object[] params)
-        throws RemoteException{
+        throws RemoteException {
         if(ref == null){
             throw new RemoteException("No reference in remote object");
         } else {

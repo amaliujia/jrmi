@@ -1,7 +1,8 @@
 package edu.cmu.courses.rmi;
 
+import edu.cmu.courses.rmi.exceptions.ConnectionException;
+
 import java.io.*;
-import java.lang.reflect.Method;
 import java.net.Socket;
 
 /**
@@ -34,11 +35,11 @@ public abstract class RemoteConnection {
      *
      * @param host target host address
      * @param port target port
-     * @throws ConnectionException If creating the socket and setting the
+     * @throws edu.cmu.courses.rmi.exceptions.ConnectionException If creating the socket and setting the
      *         input/output stream failed
      */
     public RemoteConnection(String host, int port)
-        throws ConnectionException{
+        throws ConnectionException {
         try{
             socket = new Socket(host, port);
             out = new ObjectOutputStream(socket.getOutputStream());

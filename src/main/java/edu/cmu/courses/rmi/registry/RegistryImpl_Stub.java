@@ -1,6 +1,9 @@
 package edu.cmu.courses.rmi.registry;
 
 import edu.cmu.courses.rmi.*;
+import edu.cmu.courses.rmi.exceptions.AlreadyBoundException;
+import edu.cmu.courses.rmi.exceptions.NotBoundException;
+import edu.cmu.courses.rmi.exceptions.RemoteException;
 import edu.cmu.courses.rmi.utils.Util;
 
 import java.lang.reflect.Method;
@@ -35,7 +38,7 @@ public class RegistryImpl_Stub extends RemoteStub
     }
 
     @Override
-    public RemoteRef lookup(String serviceName) throws RemoteException{
+    public RemoteRef lookup(String serviceName) throws RemoteException {
         return (RemoteRef)invoke(method_lookup_0, Util.computeMethodHash(method_lookup_0), new Object[]{serviceName});
     }
 

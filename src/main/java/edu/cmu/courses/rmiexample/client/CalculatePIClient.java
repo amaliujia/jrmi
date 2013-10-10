@@ -1,7 +1,7 @@
 package edu.cmu.courses.rmiexample.client;
 
-import edu.cmu.courses.rmi.IllegalStubException;
-import edu.cmu.courses.rmi.NoSuchStubException;
+import edu.cmu.courses.rmi.exceptions.IllegalStubException;
+import edu.cmu.courses.rmi.exceptions.NoSuchStubException;
 import edu.cmu.courses.rmi.RemoteRef;
 import edu.cmu.courses.rmi.registry.LocateRegistry;
 import edu.cmu.courses.rmiexample.common.CalculatePI;

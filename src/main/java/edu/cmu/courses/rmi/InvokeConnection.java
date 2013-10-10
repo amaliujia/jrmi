@@ -1,5 +1,9 @@
 package edu.cmu.courses.rmi;
 
+import edu.cmu.courses.rmi.exceptions.ConnectionException;
+import edu.cmu.courses.rmi.exceptions.MarshalException;
+import edu.cmu.courses.rmi.exceptions.UnmarshalException;
+
 import java.io.IOException;
 import java.lang.reflect.Method;
 

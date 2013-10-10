@@ -1,7 +1,6 @@
 package edu.cmu.courses.rmi.server;
 
-import edu.cmu.courses.rmi.RemoteConnection;
-import edu.cmu.courses.rmi.ConnectionException;
+import edu.cmu.courses.rmi.exceptions.ConnectionException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

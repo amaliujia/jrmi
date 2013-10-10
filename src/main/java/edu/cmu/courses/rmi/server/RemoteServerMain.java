@@ -5,6 +5,7 @@ import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 
 import edu.cmu.courses.rmi.*;
+import edu.cmu.courses.rmi.exceptions.RemoteException;
 import edu.cmu.courses.rmi.registry.LocateRegistry;
 import edu.cmu.courses.rmi.registry.Registry;
 import edu.cmu.courses.rmi.utils.Util;

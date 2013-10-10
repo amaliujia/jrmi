@@ -1,6 +1,5 @@
 package edu.cmu.courses.rmi.registry;
 
-import edu.cmu.courses.rmi.RemoteException;
 import edu.cmu.courses.rmi.RemoteRef;
 import edu.cmu.courses.rmi.utils.Util;
 
