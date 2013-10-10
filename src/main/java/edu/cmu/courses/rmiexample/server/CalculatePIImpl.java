@@ -1,5 +1,7 @@
 package edu.cmu.courses.rmiexample.server;
 
+import edu.cmu.courses.rmiexample.common.CalculatePI;
+
 public class CalculatePIImpl implements CalculatePI {
     public CalculatePIImpl(){
 

@@ -21,17 +21,17 @@ public final class LocateRegistry {
     private LocateRegistry(){}
 
     public static Registry getRegistry()
-            throws UnknownHostException, IOException{
+            throws IOException{
         return getRegistry(null, Registry.REGISTRY_PORT);
     }
 
     public static Registry getRegistry(int port)
-            throws UnknownHostException, IOException{
+            throws IOException{
         return getRegistry(null, port);
     }
 
     public static Registry getRegistry(String host)
-            throws UnknownHostException, IOException{
+            throws IOException{
         return getRegistry(host, Registry.REGISTRY_PORT);
     }
 
@@ -42,7 +42,7 @@ public final class LocateRegistry {
      * @param port, registry port
      */
     public static Registry getRegistry(String host, int port)
-            throws UnknownHostException, IOException{
+            throws IOException{
         synchronized (lock){
             if(registry == null){
                 if(host == null)

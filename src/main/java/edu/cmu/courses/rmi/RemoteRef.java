@@ -2,11 +2,11 @@ package edu.cmu.courses.rmi;
 
 import java.io.*;
 import java.lang.reflect.Method;
-import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.concurrent.atomic.AtomicLong;
 
 import edu.cmu.courses.rmiexample.client.HelloWorldClient;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * <code>RemoteRef</code> represents the reference of remote
@@ -100,20 +100,10 @@ public class RemoteRef implements Serializable {
      * then download it from server.
      */
     public RemoteStub localise()
-            throws UnknownHostException, IOException{
-        String stubClassName = className + "_Stub";
+            throws IOException{
         try{
-        	StubClassLoader classLoader = new StubClassLoader();
-        	//System.out.println(System.getProperty("user.dir"));
-        	Class c = null;
-        	try{
-        		c = classLoader.loadClass(stubClassName);
-        	}
-        	catch(ClassNotFoundException e) {
-        		classLoader.setStubClassLoader(host, Stub.STUB_PORT, stubClassName);
-        		c = classLoader.getStubClass();
-        	}
-            //Class c = Class.forName(stubClassName);
+        	StubClassLoader classLoader = new StubClassLoader(host, RemoteStub.STUB_PORT, className);
+        	Class c = classLoader.getStubClass();
             Object stub = c.newInstance();
             if(stub instanceof RemoteStub){
                 ((RemoteStub) stub).setRef(this);
@@ -121,8 +111,6 @@ public class RemoteRef implements Serializable {
             } else{
                 throw new IllegalStubException("The stub class isn't the child class of RemoteStub");
             }
-        //} catch (ClassNotFoundException e){
-          //  throw new NoSuchStubException("Can't find "+stubClassName, e);
         } catch (InstantiationException e) {
             throw new IllegalStubException("The stub don't have proper constructor", e);
         } catch (IllegalAccessException e) {

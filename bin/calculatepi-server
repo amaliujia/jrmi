@@ -1,0 +1,5 @@
+#!/bin/bash
+
+base=`dirname $PWD/$0`/..
+export CLASSPATH="$base/bin/jrmi-example-server.jar:$base/lib/*"
+java edu.cmu.courses.rmi.server.RemoteServerMain -r edu.cmu.courses.rmiexample.server.CalculatePIImpl@calculatePI

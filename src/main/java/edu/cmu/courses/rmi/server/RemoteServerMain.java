@@ -14,9 +14,11 @@ import edu.cmu.courses.rmi.validators.RemoteFormatValidator;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlet.ServletHolder;
 
 import java.io.IOException;
-import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +59,7 @@ public class RemoteServerMain {
         host = Util.getHost();
     }
 
-    private boolean registerRemoteClass(String className, String serviceName) throws UnknownHostException, IOException{
+    private boolean registerRemoteClass(String className, String serviceName) throws IOException{
         Class c;
         Remote obj;
         Registry registry;
@@ -91,7 +93,7 @@ public class RemoteServerMain {
         return true;
     }
 
-    private boolean registerRemoteClasses() throws UnknownHostException, IOException{
+    private boolean registerRemoteClasses() throws IOException{
         for(String remote: remotes){
             String[] words = remote.split("@");
             String className = words[0];
@@ -103,32 +105,40 @@ public class RemoteServerMain {
         return true;
     }
 
-    private void startServer() throws UnknownHostException, IOException{
+    private void startServer() throws IOException{
         server = new RemoteServer(host, port, poolSize);
         serverThread = new Thread(server);
-        if(registerRemoteClasses())
+        if(registerRemoteClasses()){
             serverThread.start();
+        }
+    }
+
+    private void startStubServer() throws Exception {
+        Server server = new Server(RemoteStub.STUB_PORT);
+        ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
+        context.setContextPath("/");
+        context.addServlet(new ServletHolder(new StubClassDownloadHandler()), StubClassDownloadHandler.URI + "*");
+        server.setHandler(context);
+        server.start();
+        server.join();
     }
     /**
-     * Main function.
-     * Start <code>StubServer</code> and <code>RemoteServerMain</code>
      *
      * @param args program augments
      * @see edu.cmu.courses.rmi.server.RemoteServerMain#RemoteServerMain()
      */
-    public static void main(String[] args) throws UnknownHostException, IOException {
-    	StubServer ss = new StubServer(Stub.STUB_PORT, 32);
-    	Thread stubServer = new Thread(ss);
-    	stubServer.start();
-
+    public static void main(String[] args){
         RemoteServerMain main = null;
         try {
             main = new RemoteServerMain();
+            new JCommander(main, args);
+            main.startServer();
+            main.startStubServer();
         } catch (UnknownHostException e) {
             LOG.error("can't get this machine's address", e);
             System.exit(-1);
+        } catch (Exception e) {
+            LOG.error(e);
         }
-        new JCommander(main, args);
-        main.startServer();
     }
 }

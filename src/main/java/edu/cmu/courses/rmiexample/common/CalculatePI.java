@@ -1,4 +1,4 @@
-package edu.cmu.courses.rmiexample.server;
+package edu.cmu.courses.rmiexample.common;
 
 import edu.cmu.courses.rmi.Remote;
 

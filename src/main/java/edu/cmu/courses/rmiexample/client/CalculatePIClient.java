@@ -4,8 +4,7 @@ import edu.cmu.courses.rmi.IllegalStubException;
 import edu.cmu.courses.rmi.NoSuchStubException;
 import edu.cmu.courses.rmi.RemoteRef;
 import edu.cmu.courses.rmi.registry.LocateRegistry;
-import edu.cmu.courses.rmiexample.server.CalculatePI;
-import edu.cmu.courses.rmiexample.server.HelloWorld;
+import edu.cmu.courses.rmiexample.common.CalculatePI;
 
 public class CalculatePIClient implements Runnable{
 	private static double PI;

@@ -3,7 +3,7 @@ package edu.cmu.courses.rmiexample.server;
 import edu.cmu.courses.rmi.RemoteRef;
 import edu.cmu.courses.rmi.RemoteStub;
 import edu.cmu.courses.rmi.utils.Util;
-import edu.cmu.courses.rmiexample.server.HelloWorld;
+import edu.cmu.courses.rmiexample.common.HelloWorld;
 
 import java.lang.reflect.Method;
 

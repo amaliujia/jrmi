@@ -2,13 +2,11 @@ package edu.cmu.courses.rmiexample.server;
 
 import java.lang.reflect.Method;
 
-import edu.cmu.courses.rmi.AlreadyBoundException;
-import edu.cmu.courses.rmi.NotBoundException;
 import edu.cmu.courses.rmi.RemoteException;
 import edu.cmu.courses.rmi.RemoteRef;
 import edu.cmu.courses.rmi.RemoteStub;
-import edu.cmu.courses.rmi.registry.Registry;
 import edu.cmu.courses.rmi.utils.Util;
+import edu.cmu.courses.rmiexample.common.CalculatePI;
 
 public class CalculatePIImpl_Stub extends RemoteStub
 implements CalculatePI {

@@ -1,11 +1,14 @@
 package edu.cmu.courses.rmi;
 
+import edu.cmu.courses.rmi.server.StubClassDownloadHandler;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
-import java.net.UnknownHostException;
+import java.net.URL;
+
 
 /**
  * The <code>StubClassLoader</code> is a subclass of
@@ -18,6 +21,14 @@ import java.net.UnknownHostException;
  */
 public class StubClassLoader extends ClassLoader{
     /**
+     * Logger object
+     */
+    private static Logger LOG = LogManager.getLogger(StubClassLoader.class);
+
+    private static int READ_BUFFER_SIZE = 4096;
+    private static String STUB_SUFFIX = "_Stub";
+
+    /**
      * The host name of stub server.
      */
 	String host;
@@ -26,55 +37,54 @@ public class StubClassLoader extends ClassLoader{
      * The port number of stub downloading service.
      */
 	int port;
-	
+
     /**
-     * The name of stub to download
+     * The implementation class name
      */
-	String stubClassName;
-	
-    /**
-     * The default constructor
-     */
-	public StubClassLoader(){
-		
-	}
-	
-    /**
-     * Set host name, port number and stub class name
-     * 
-     * @param host, host name
-     * @param port, port number
-     * @param stubClassName, name of stub class
-     */
-	public void setStubClassLoader(String host,int port, String stubClassName){
+    String implClassName;
+
+	public StubClassLoader(String host,int port, String implClassName){
 		this.host = host;
 		this.port = port;
-		this.stubClassName = stubClassName;
+		this.implClassName = implClassName;
 	}
-	
+
+    public Class getStubClass() throws IOException {
+        Class c;
+        try {
+            c = Class.forName(implClassName + STUB_SUFFIX);
+        } catch (ClassNotFoundException e) {
+            LOG.info("Try to download stub class " + implClassName + " from remote");
+            c = getRemoteStubClass();
+        }
+        return c;
+    }
+
+
     /**
      * Download stub class and generate the create the class
      * at runtime.
      */
-	public Class getStubClass()
-			throws UnknownHostException, IOException{
-    	Socket socket = new Socket(host, port);
-    	ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-    	ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-    	out.writeObject(stubClassName);
-        
-        byte data;
-        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-        int count = 0;
-        while((data = (byte) in.read()) != -1) {
-    		System.out.println(data*10000);
-    		System.out.println(++count);
-        	buffer.write(data);
+	private Class getRemoteStubClass()
+			throws IOException{
+        byte[] stubClassBytes = getClassFileByte(implClassName + STUB_SUFFIX);
+        return defineClass(implClassName + STUB_SUFFIX, stubClassBytes, 0, stubClassBytes.length);
+    }
+
+    private byte[] getClassFileByte(String className)
+            throws IOException{
+        String classPath = className.replaceAll("\\.", "/") + ".class";
+        URL url = new URL("http://" + host + ":" + port + StubClassDownloadHandler.URI + classPath);
+        BufferedInputStream in = new BufferedInputStream(url.openStream());
+        byte buffer[] = new byte[READ_BUFFER_SIZE];
+        int length;
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        while((length = in.read(buffer, 0, READ_BUFFER_SIZE)) != -1){
+            out.write(buffer, 0, length);
         }
-        out.close();
+        byte[] classFileBytes = out.toByteArray();
         in.close();
-        byte[] classData = buffer.toByteArray();
-        buffer.close();
-        return defineClass(stubClassName, classData, 0, classData.length);
+        out.close();
+        return classFileBytes;
     }
 }

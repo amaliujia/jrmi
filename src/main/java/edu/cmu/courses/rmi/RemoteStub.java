@@ -12,6 +12,11 @@ import java.lang.reflect.Method;
  */
 public abstract class RemoteStub implements Serializable{
     /**
+     * Port for downloading stub class
+     */
+    public static final int STUB_PORT = 15213;
+
+    /**
      * Reference of the remote object
      */
     protected RemoteRef ref;
