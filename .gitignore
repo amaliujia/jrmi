@@ -5,3 +5,4 @@
 .project
 dist/lib/*
 dist/bin/*.jar
+target/*
