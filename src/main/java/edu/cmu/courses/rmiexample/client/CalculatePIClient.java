@@ -1,70 +1,63 @@
 package edu.cmu.courses.rmiexample.client;
 
-import edu.cmu.courses.rmi.exceptions.IllegalStubException;
-import edu.cmu.courses.rmi.exceptions.NoSuchStubException;
+import com.beust.jcommander.JCommander;
+import com.beust.jcommander.Parameter;
+import com.beust.jcommander.validators.PositiveInteger;
 import edu.cmu.courses.rmi.RemoteRef;
 import edu.cmu.courses.rmi.registry.LocateRegistry;
+import edu.cmu.courses.rmi.registry.Registry;
+import edu.cmu.courses.rmi.validators.PortValidator;
 import edu.cmu.courses.rmiexample.common.CalculatePI;
 
-public class CalculatePIClient implements Runnable{
-	private static double PI;
-	private static CalculatePI stub;
-	private int n;
-	public synchronized void increasePI(double x) {
-        PI += x;
-    }
-	public CalculatePIClient(int n)
-	{
-		this.n = n;
-	}
-    public static void main(String[] args) {
-        RemoteRef ref;
-        try {
-            if(args.length == 0){
-                ref = LocateRegistry.getRegistry().lookup("calculatePI");
-            } else{
-                ref = LocateRegistry.getRegistry(args[0]).lookup("calculatePI");
-            }
-            if(ref != null){
-            	
-                stub = (CalculatePI)ref.localise();
-                int times = 1000;
-                Thread[] threads = new Thread[times];
-                for(int i = 0; i < times; i++)
-                {
-                	//System.out.println(i);
-                	Runnable r = new CalculatePIClient(i);
-                	threads[i] = new Thread(r);
-                	threads[i].run();
-                }
-                for(int i = 0; i < times; i++)
-                {
-                	
-                	threads[i].join();
-                }
-                System.out.println(stub.calPI(PI));
-            } else {
-                System.out.println("Ooops!");
-            }
-        } catch (NoSuchStubException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (IllegalStubException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (Exception e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+import java.io.IOException;
+
+public class CalculatePIClient{
+    @Parameter(names = {"-r", "--registry"},
+            description = "the host of registry server")
+    private String registryHost = null;
+
+    @Parameter(names = {"-p", "--registry-port"},
+            description = "the listening port of registry server",
+            validateWith = PortValidator.class)
+    private int registryPort = Registry.REGISTRY_PORT;
+
+    @Parameter(names = {"-t", "--threads"},
+               description = "the number of threads for calculating the PI",
+               validateWith = PositiveInteger.class)
+    private int threadNumber = 32;
+
+    @Parameter(names = {"-h", "--help"},
+            help = true)
+    private boolean help;
+
+    public static void main(String[] args) throws IOException, InterruptedException {
+        CalculatePIClient client = new CalculatePIClient();
+        JCommander jCommander = new JCommander(client, args);
+        if(client.needHelp()){
+            jCommander.usage();
+        } else {
+            client.startCalculate();
         }
     }
 
-	@Override
-	public void run() {
-		double result = 0;
-		try {
-			//System.out.println(stub.sumReciprocalSqure(n*10000));
-			if(stub.sumReciprocalSqure(n*100000) > 1e-16)
-			result = stub.sumReciprocalSqure(n*100000+1, (n+1)*100000);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		increasePI(result);
-	}
+    public boolean needHelp(){
+        return help;
+    }
+
+    private void startCalculate() throws IOException, InterruptedException {
+        Registry registry = LocateRegistry.getRegistry(registryHost, registryPort);
+        RemoteRef ref = registry.lookup("calculatePI");
+        CalculatePI calculator = (CalculatePI)ref.localise();
+        Thread[] threads = new Thread[threadNumber];
+        for(int i = 0; i < threadNumber; i++){
+            Thread thread = new Thread(new CalculatePIWorker(calculator, i));
+            threads[i] = thread;
+            thread.start();
+        }
+        for(int i = 0; i < threadNumber; i++){
+            threads[i].join();
+        }
+        double PI = calculator.calPI(CalculatePIWorker.getPI());
+        System.out.println(PI);
+    }
 }
