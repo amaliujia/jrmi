@@ -10,7 +10,11 @@ public class HelloWorldClient {
     public static void main(String[] args) {
         RemoteRef ref;
         try {
-            ref = LocateRegistry.getRegistry().lookup("hello");
+            if(args.length == 0){
+                ref = LocateRegistry.getRegistry().lookup("hello");
+            } else {
+                ref = LocateRegistry.getRegistry(args[0]).lookup("hello");
+            }
             if(ref != null){
             	
                 HelloWorld stub = (HelloWorld)ref.localise();

@@ -20,7 +20,11 @@ public class CalculatePIClient implements Runnable{
     public static void main(String[] args) {
         RemoteRef ref;
         try {
-            ref = LocateRegistry.getRegistry().lookup("calculatePI");
+            if(args.length == 0){
+                ref = LocateRegistry.getRegistry().lookup("calculatePI");
+            } else{
+                ref = LocateRegistry.getRegistry(args[0]).lookup("calculatePI");
+            }
             if(ref != null){
             	
                 stub = (CalculatePI)ref.localise();

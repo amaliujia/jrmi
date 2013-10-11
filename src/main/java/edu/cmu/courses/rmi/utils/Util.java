@@ -20,7 +20,7 @@ public class Util {
     public static String getHost()
             throws UnknownHostException {
         InetAddress inetAddress = InetAddress.getLocalHost();
-        return inetAddress.getHostAddress();
+        return inetAddress.getHostName();
     }
     /**
      * Compute the "method hash" of a remote method.  The method hash
