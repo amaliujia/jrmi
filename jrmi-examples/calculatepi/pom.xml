@@ -4,15 +4,21 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <groupId>edu.cmu.courses</groupId>
+        <artifactId>jrmi-examples</artifactId>
+        <version>1.0</version>
+    </parent>
+
     <groupId>edu.cmu.courses</groupId>
-    <artifactId>jrmi-parent</artifactId>
+    <artifactId>calculatepi</artifactId>
     <version>1.0</version>
     <packaging>pom</packaging>
 
     <modules>
-        <module>jrmi</module>
-        <module>jrmi-compiler</module>
-        <module>jrmi-examples</module>
+        <module>common</module>
+        <module>server</module>
+        <module>client</module>
     </modules>
 
 </project>
