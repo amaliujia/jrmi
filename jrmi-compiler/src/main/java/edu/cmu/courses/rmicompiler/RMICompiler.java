@@ -32,7 +32,7 @@ public class RMICompiler {
                help = true)
     private boolean help;
 
-    @Parameter(description = "package qualified class name(s)",
+    @Parameter(description = "package-qualified-class-name(s)",
             required = true)
     private List<String> implClassNames = new ArrayList<String>();
 

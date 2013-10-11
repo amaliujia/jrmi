@@ -8,11 +8,11 @@ import edu.cmu.courses.rmi.Registry;
 import java.io.IOException;
 
 public class CalculatePIClient{
-    @Parameter(names = {"-r", "--registry"},
+    @Parameter(names = {"-rh", "--registry-host"},
             description = "the host of registry server")
     private String registryHost = null;
 
-    @Parameter(names = {"-p", "--registry-port"},
+    @Parameter(names = {"-rp", "--registry-port"},
             description = "the listening port of registry server")
     private int registryPort = Registry.REGISTRY_PORT;
 
