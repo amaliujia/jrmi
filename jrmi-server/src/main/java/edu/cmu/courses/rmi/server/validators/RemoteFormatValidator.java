@@ -1,4 +1,4 @@
-package edu.cmu.courses.rmi.validators;
+package edu.cmu.courses.rmi.server.validators;
 
 import com.beust.jcommander.IParameterValidator;
 import com.beust.jcommander.ParameterException;

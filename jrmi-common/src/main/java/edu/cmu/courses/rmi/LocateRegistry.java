@@ -50,7 +50,8 @@ public final class LocateRegistry {
                         host = "";
                     }
                 RemoteRef ref = new RemoteRef(host, port,
-                        RegistryImpl.class.getName(), Registry.REGISTRY_OBJID);
+                        "edu.cmu.courses.rmi.registry.RegistryImpl",
+                        Registry.REGISTRY_OBJID);
                 registry = (Registry)ref.localise();
             }
         }

@@ -6,12 +6,13 @@ import com.beust.jcommander.Parameter;
 
 import edu.cmu.courses.rmi.*;
 import edu.cmu.courses.rmi.exceptions.RemoteException;
-import edu.cmu.courses.rmi.registry.LocateRegistry;
-import edu.cmu.courses.rmi.registry.Registry;
+import edu.cmu.courses.rmi.LocateRegistry;
+import edu.cmu.courses.rmi.Registry;
+import edu.cmu.courses.rmi.registry.RegistryImpl;
 import edu.cmu.courses.rmi.utils.Util;
-import edu.cmu.courses.rmi.validators.PoolSizeValidator;
-import edu.cmu.courses.rmi.validators.PortValidator;
-import edu.cmu.courses.rmi.validators.RemoteFormatValidator;
+import edu.cmu.courses.rmi.server.validators.PoolSizeValidator;
+import edu.cmu.courses.rmi.server.validators.PortValidator;
+import edu.cmu.courses.rmi.server.validators.RemoteFormatValidator;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -32,11 +33,15 @@ public class RemoteServerMain {
                validateWith = PortValidator.class)
     private int port = 15440;
 
-    @Parameter(names = {"-R", "--registry"},
+    @Parameter(names = {"-R", "--as-registry-server"},
+               description = "start up as a registry server")
+    private boolean asRegistry = false;
+
+    @Parameter(names = {"-rh", "--registry-host"},
             description = "the host of registry server")
     private String registryHost = null;
 
-    @Parameter(names = {"-P", "--registry-port"},
+    @Parameter(names = {"-rp", "--registry-port"},
             description = "the listening port of registry server",
             validateWith = PortValidator.class)
     private int registryPort = Registry.REGISTRY_PORT;
@@ -48,7 +53,6 @@ public class RemoteServerMain {
 
     @Parameter(names = {"-r", "--remote"},
                description = "the remote object name and service name, use format className@serviceName",
-               required = true,
                validateWith = RemoteFormatValidator.class)
     private List<String> remotes = new ArrayList<String>();
 
@@ -114,11 +118,32 @@ public class RemoteServerMain {
         return true;
     }
 
-    private void startServer() throws IOException{
+    private void startRMIServer() throws Exception{
         server = new RemoteServer(host, port, poolSize);
         serverThread = new Thread(server);
         if(registerRemoteClasses()){
+            startStubServer();
             serverThread.start();
+            serverThread.join();
+        }
+    }
+
+    private void startRegistryServer() throws Exception{
+        RemoteRef ref = new RemoteRef(host, port,
+                RegistryImpl.class.getName(), Registry.REGISTRY_OBJID);
+        RegistryImpl registry = new RegistryImpl();
+        RemoteRefTable.addObject(ref, registry);
+        server = new RemoteServer(registryHost, registryPort, poolSize);
+        serverThread = new Thread(server);
+        serverThread.start();
+        serverThread.join();
+    }
+
+    private void startServer() throws Exception{
+        if(asRegistry){
+            startRegistryServer();
+        } else {
+            startRMIServer();
         }
     }
 
@@ -126,10 +151,9 @@ public class RemoteServerMain {
         Server server = new Server(RemoteStub.STUB_PORT);
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.setContextPath("/");
-        context.addServlet(new ServletHolder(new StubClassDownloadHandler()), StubClassDownloadHandler.URI + "*");
+        context.addServlet(new ServletHolder(new StubClassDownloadHandler()), RemoteStub.HTTP_URI + "*");
         server.setHandler(context);
         server.start();
-        server.join();
     }
     /**
      *
@@ -145,7 +169,6 @@ public class RemoteServerMain {
                 jCommander.usage();
             } else {
                 main.startServer();
-                main.startStubServer();
             }
         } catch (UnknownHostException e) {
             LOG.error("can't get this machine's address", e);

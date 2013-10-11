@@ -1,5 +1,5 @@
 #!/bin/bash
 
 base=`dirname $0`/..
-export CLASSPATH="$base/bin/jrmi-compiler.jar:$base/lib/*"
+export CLASSPATH="$$base/bin/jrmi-compiler-1.0.jar:base/lib/*"
 java edu.cmu.courses.rmicompiler.RMICompiler $@

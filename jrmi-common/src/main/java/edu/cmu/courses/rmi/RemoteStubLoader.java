@@ -1,6 +1,5 @@
 package edu.cmu.courses.rmi;
 
-import edu.cmu.courses.rmi.server.StubClassDownloadHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -73,7 +72,7 @@ public class RemoteStubLoader extends ClassLoader{
     private byte[] getClassFileByte(String className)
             throws IOException{
         String classPath = className.replaceAll("\\.", "/") + ".class";
-        URL url = new URL("http://" + host + ":" + port + StubClassDownloadHandler.URI + classPath);
+        URL url = new URL("http://" + host + ":" + port + RemoteStub.HTTP_URI + classPath);
         BufferedInputStream in = new BufferedInputStream(url.openStream());
         byte buffer[] = new byte[READ_BUFFER_SIZE];
         int length;

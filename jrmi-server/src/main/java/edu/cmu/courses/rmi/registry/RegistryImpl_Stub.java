@@ -2,9 +2,11 @@
 
 package edu.cmu.courses.rmi.registry;
 
+import edu.cmu.courses.rmi.Registry;
+
 public final class RegistryImpl_Stub
         extends edu.cmu.courses.rmi.RemoteStub
-        implements edu.cmu.courses.rmi.registry.Registry
+        implements Registry
 {
 
     private static java.lang.reflect.Method $method_bind_0;
@@ -14,11 +16,11 @@ public final class RegistryImpl_Stub
     private static java.lang.reflect.Method $method_rebind_4;
     static {
         try {
-            $method_bind_0 = edu.cmu.courses.rmi.registry.Registry.class.getMethod("bind", new java.lang.Class[] {java.lang.String.class, edu.cmu.courses.rmi.RemoteRef.class});
-            $method_unbind_1 = edu.cmu.courses.rmi.registry.Registry.class.getMethod("unbind", new java.lang.Class[] {java.lang.String.class});
-            $method_lookup_2 = edu.cmu.courses.rmi.registry.Registry.class.getMethod("lookup", new java.lang.Class[] {java.lang.String.class});
-            $method_list_3 = edu.cmu.courses.rmi.registry.Registry.class.getMethod("list", new java.lang.Class[] {});
-            $method_rebind_4 = edu.cmu.courses.rmi.registry.Registry.class.getMethod("rebind", new java.lang.Class[] {java.lang.String.class, edu.cmu.courses.rmi.RemoteRef.class});
+            $method_bind_0 = Registry.class.getMethod("bind", new java.lang.Class[] {java.lang.String.class, edu.cmu.courses.rmi.RemoteRef.class});
+            $method_unbind_1 = Registry.class.getMethod("unbind", new java.lang.Class[] {java.lang.String.class});
+            $method_lookup_2 = Registry.class.getMethod("lookup", new java.lang.Class[] {java.lang.String.class});
+            $method_list_3 = Registry.class.getMethod("list", new java.lang.Class[] {});
+            $method_rebind_4 = Registry.class.getMethod("rebind", new java.lang.Class[] {java.lang.String.class, edu.cmu.courses.rmi.RemoteRef.class});
         } catch (java.lang.NoSuchMethodException e) {
             throw new java.lang.NoSuchMethodError("stub class initialization failed");
         }

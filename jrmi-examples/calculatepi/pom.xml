@@ -15,6 +15,10 @@
     <version>1.0</version>
     <packaging>pom</packaging>
 
+    <properties>
+        <project.root>${basedir}/../..</project.root>
+    </properties>
+
     <modules>
         <module>common</module>
         <module>server</module>

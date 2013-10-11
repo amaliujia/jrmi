@@ -1,5 +1,6 @@
 package edu.cmu.courses.rmi.server;
 
+import edu.cmu.courses.rmi.RemoteStub;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 
@@ -12,12 +13,11 @@ import java.net.URL;
 
 public class StubClassDownloadHandler extends HttpServlet {
 
-    public static String URI = "/stub/";
     private static String CONTENT_TYPE = "application/x-java-class";
 
     private static URL getClassResource(HttpServletRequest request){
         String uri = request.getRequestURI();
-        String className = FilenameUtils.removeExtension(uri).substring(URI.length());
+        String className = FilenameUtils.removeExtension(uri).substring(RemoteStub.HTTP_URI.length());
         if(className == ""){
             return null;
         }

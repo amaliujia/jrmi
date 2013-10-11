@@ -20,6 +20,7 @@ public abstract class RemoteStub implements Serializable{
      */
     public static final int STUB_PORT = 15213;
     public static final String STUB_SUFFIX = "_Stub";
+    public static final String HTTP_URI = "/stub/";
 
     /**
      * Reference of the remote object

@@ -5,12 +5,17 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>edu.cmu.courses</groupId>
-    <artifactId>jrmi-parent</artifactId>
+    <artifactId>jrmi</artifactId>
     <version>1.0</version>
     <packaging>pom</packaging>
 
+    <properties>
+        <project.root>${basedir}</project.root>
+    </properties>
+
     <modules>
-        <module>jrmi</module>
+        <module>jrmi-common</module>
+        <module>jrmi-server</module>
         <module>jrmi-compiler</module>
         <module>jrmi-examples</module>
     </modules>

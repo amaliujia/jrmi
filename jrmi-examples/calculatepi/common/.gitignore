@@ -1,5 +1,1 @@
 target/*
-bin/*.jar
-lib/*
-doc/*
-dist/*

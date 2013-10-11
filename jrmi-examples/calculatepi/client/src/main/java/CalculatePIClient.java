@@ -2,9 +2,8 @@ import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.validators.PositiveInteger;
 import edu.cmu.courses.rmi.RemoteRef;
-import edu.cmu.courses.rmi.registry.LocateRegistry;
-import edu.cmu.courses.rmi.registry.Registry;
-import edu.cmu.courses.rmi.validators.PortValidator;
+import edu.cmu.courses.rmi.LocateRegistry;
+import edu.cmu.courses.rmi.Registry;
 
 import java.io.IOException;
 
@@ -14,8 +13,7 @@ public class CalculatePIClient{
     private String registryHost = null;
 
     @Parameter(names = {"-p", "--registry-port"},
-            description = "the listening port of registry server",
-            validateWith = PortValidator.class)
+            description = "the listening port of registry server")
     private int registryPort = Registry.REGISTRY_PORT;
 
     @Parameter(names = {"-t", "--threads"},

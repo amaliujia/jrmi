@@ -1,6 +1,5 @@
 package edu.cmu.courses.rmi;
 
-import edu.cmu.courses.rmi.*;
 import edu.cmu.courses.rmi.exceptions.AlreadyBoundException;
 import edu.cmu.courses.rmi.exceptions.NotBoundException;
 import edu.cmu.courses.rmi.exceptions.RemoteException;

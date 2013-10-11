@@ -1,5 +1,6 @@
 package edu.cmu.courses.rmi.registry;
 
+import edu.cmu.courses.rmi.Registry;
 import edu.cmu.courses.rmi.exceptions.AlreadyBoundException;
 import edu.cmu.courses.rmi.exceptions.NotBoundException;
 import edu.cmu.courses.rmi.exceptions.RemoteException;
@@ -8,7 +9,7 @@ import edu.cmu.courses.rmi.RemoteRef;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class RegistryImpl implements Registry{
+public class RegistryImpl implements Registry {
     private ConcurrentHashMap<String, RemoteRef> refs;
 
     public RegistryImpl(){

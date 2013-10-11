@@ -1,5 +1,5 @@
 #!/bin/bash
 
 base=`dirname $0`/..
-export CLASSPATH="$base/bin/jrmi-example-server.jar:$base/lib/*"
-java edu.cmu.courses.rmi.server.RemoteServerMain -r edu.cmu.courses.rmiexample.server.CalculatePIImpl@calculatePI $@
+export CLASSPATH="$base/bin/calculatepi-common-1.0.jar:$base/bin/calculatepi-server-1.0.jar:$base/bin/jrmi-server-1.0.jar:$base/lib/*"
+java edu.cmu.courses.rmi.server.RemoteServerMain -r CalculatePIImpl@calculatePI $@
