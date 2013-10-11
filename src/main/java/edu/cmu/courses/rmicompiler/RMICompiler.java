@@ -4,29 +4,46 @@ import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import edu.cmu.courses.rmi.RemoteStub;
 
+import javax.tools.JavaCompiler;
+import javax.tools.JavaFileObject;
+import javax.tools.StandardJavaFileManager;
+import javax.tools.ToolProvider;
 import java.io.*;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class RMICompiler {
     private static RMICompiler singleton = null;
 
     @Parameter(names = {"-cp", "--classpath"},
-               description = "class path")
+               description = "the path jrmi-compiler uses to look up classes.")
     private List<String> classPaths = new ArrayList<String>();
 
-    @Parameter(description = "the class name",
-               required = true)
+    @Parameter(names = {"-d", "--directory"},
+               description = "the output directory of the stub file(s)")
+    private String outputDirectory = ".";
+
+    @Parameter(names = {"-h", "--help"},
+               help = true)
+    private boolean help;
+
+    @Parameter(description = "package qualified class name(s)",
+            required = true)
     private List<String> implClassNames = new ArrayList<String>();
 
     private URLClassLoader urlClassLoader;
 
     private RMICompiler(){
 
+    }
+
+    public boolean needHelp(){
+        return help;
     }
 
     public static RMICompiler getCompiler(){
@@ -41,7 +58,9 @@ public class RMICompiler {
         for(String implClassName : implClassNames){
             RemoteClass remoteClass = new RemoteClass(implClassName, urlClassLoader);
             Class implClass = remoteClass.getImplClass();
-            FileWriter writer = new FileWriter(new File(implClass.getSimpleName() + RemoteStub.STUB_SUFFIX + ".java"));
+            File outputFile = new File(outputDirectory + File.separator +
+                    implClass.getSimpleName() + RemoteStub.STUB_SUFFIX + ".java");
+            FileWriter writer = new FileWriter(outputFile);
             writeStub(remoteClass, new IndentingWriter(writer));
         }
     }
@@ -251,7 +270,11 @@ public class RMICompiler {
     public static void main(String[] args)
             throws UnsupportedClassException, IOException, ClassNotFoundException {
         RMICompiler compiler = RMICompiler.getCompiler();
-        new JCommander(compiler, args);
-        compiler.compile();
+        JCommander jCommander = new JCommander(compiler, args);
+        if(compiler.needHelp()){
+            jCommander.usage();
+        } else {
+            compiler.compile();
+        }
     }
 }

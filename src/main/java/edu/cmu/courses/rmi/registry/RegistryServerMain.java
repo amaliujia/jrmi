@@ -27,6 +27,10 @@ public class RegistryServerMain {
             validateWith = PoolSizeValidator.class)
     private int poolSize = 32;
 
+    @Parameter(names = {"-h", "--help"},
+            help = true)
+    private boolean help;
+
     private String host;
     private Thread serverThread;
 
@@ -54,6 +58,11 @@ public class RegistryServerMain {
         serverThread = new Thread(new RemoteServer(host, port, poolSize));
         serverThread.start();
     }
+
+    public boolean needHelp(){
+        return help;
+    }
+
     /**
      * Main function.
      * Start <code>RegistryServerMain</code> and parsing the arguments
@@ -69,7 +78,11 @@ public class RegistryServerMain {
             LOG.error("can't get this machine's address",e);
             System.exit(-1);
         }
-        new JCommander(registryServerMain, args);
-        registryServerMain.startServer();
+        JCommander jCommander = new JCommander(registryServerMain, args);
+        if(registryServerMain.needHelp()){
+            jCommander.usage();
+        } else {
+            registryServerMain.startServer();
+        }
     }
 }

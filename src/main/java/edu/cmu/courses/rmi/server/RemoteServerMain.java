@@ -52,12 +52,20 @@ public class RemoteServerMain {
                validateWith = RemoteFormatValidator.class)
     private List<String> remotes = new ArrayList<String>();
 
+    @Parameter(names = {"-h", "--help"},
+            help = true)
+    private boolean help;
+
     private String host;
     private RemoteServer server;
     private Thread serverThread;
 
     public RemoteServerMain() throws UnknownHostException {
         host = Util.getHost();
+    }
+
+    public boolean needHelp(){
+        return help;
     }
 
     private boolean registerRemoteClass(String className, String serviceName) throws IOException{
@@ -132,9 +140,13 @@ public class RemoteServerMain {
         RemoteServerMain main = null;
         try {
             main = new RemoteServerMain();
-            new JCommander(main, args);
-            main.startServer();
-            main.startStubServer();
+            JCommander jCommander = new JCommander(main, args);
+            if(main.needHelp()){
+                jCommander.usage();
+            } else {
+                main.startServer();
+                main.startStubServer();
+            }
         } catch (UnknownHostException e) {
             LOG.error("can't get this machine's address", e);
             System.exit(-1);
