@@ -26,7 +26,6 @@ public class RemoteStubLoader extends ClassLoader{
     private static Logger LOG = LogManager.getLogger(RemoteStubLoader.class);
 
     private static int READ_BUFFER_SIZE = 4096;
-    private static String STUB_SUFFIX = "_Stub";
 
     /**
      * The host name of stub server.
@@ -52,7 +51,7 @@ public class RemoteStubLoader extends ClassLoader{
     public Class getStubClass() throws IOException {
         Class c;
         try {
-            c = Class.forName(implClassName + STUB_SUFFIX);
+            c = Class.forName(implClassName + RemoteStub.STUB_SUFFIX);
         } catch (ClassNotFoundException e) {
             LOG.info("Try to download stub class " + implClassName + " from remote");
             c = getRemoteStubClass();
@@ -67,8 +66,8 @@ public class RemoteStubLoader extends ClassLoader{
      */
 	private Class getRemoteStubClass()
 			throws IOException{
-        byte[] stubClassBytes = getClassFileByte(implClassName + STUB_SUFFIX);
-        return defineClass(implClassName + STUB_SUFFIX, stubClassBytes, 0, stubClassBytes.length);
+        byte[] stubClassBytes = getClassFileByte(implClassName + RemoteStub.STUB_SUFFIX);
+        return defineClass(implClassName + RemoteStub.STUB_SUFFIX, stubClassBytes, 0, stubClassBytes.length);
     }
 
     private byte[] getClassFileByte(String className)

@@ -96,7 +96,7 @@
                             <includes>
                                 <include>edu/cmu/courses/rmicompiler/**/*</include>
                             </includes>
-                            <finalName>jrmi-stub-generator</finalName>
+                            <finalName>jrmi-compiler</finalName>
                             <outputDirectory>${project.basedir}/bin</outputDirectory>
                         </configuration>
                     </execution>

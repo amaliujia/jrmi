@@ -1,5 +1,5 @@
 #!/bin/bash
 
-base=`dirname $PWD/$0`/..
-export CLASSPATH="$base/bin/jrmi-example.jar:$base/lib/*"
-java edu.cmu.courses.rmi.registry.RegistryServerMain
+base=`dirname $0`/..
+export CLASSPATH="$base/lib/*"
+java edu.cmu.courses.rmi.registry.RegistryServerMain $@
