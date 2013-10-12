@@ -24,6 +24,9 @@ public class RemoteStubLoader extends ClassLoader{
      */
     private static Logger LOG = LogManager.getLogger(RemoteStubLoader.class);
 
+    /**
+     * Buffer size
+     */
     private static int READ_BUFFER_SIZE = 4096;
 
     /**
@@ -41,12 +44,26 @@ public class RemoteStubLoader extends ClassLoader{
      */
     String implClassName;
 
+    /**
+     * constuctor 
+     * 
+     * @param host, host name 
+     * @param port, port number
+     * @param implClassName, the name of implementation class
+     */
 	public RemoteStubLoader(String host, int port, String implClassName){
 		this.host = host;
 		this.port = port;
 		this.implClassName = implClassName;
 	}
 
+	/**
+	 * If class exist locally, return the class.
+	 * If it doesn't exist locally, download it from server.
+	 * 
+	 * @return Class
+	 * @throws IOException
+	 */
     public Class getStubClass() throws IOException {
         Class c;
         try {
@@ -69,6 +86,13 @@ public class RemoteStubLoader extends ClassLoader{
         return defineClass(implClassName + RemoteStub.STUB_SUFFIX, stubClassBytes, 0, stubClassBytes.length);
     }
 
+	/**
+	 * Using class file URL to get class file from server.
+	 * 
+	 * @param className, the name of class
+	 * @return byte[], byte file data
+	 * @throws IOException
+	 */
     private byte[] getClassFileByte(String className)
             throws IOException{
         String classPath = className.replaceAll("\\.", "/") + ".class";
