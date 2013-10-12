@@ -70,7 +70,6 @@ public class RemoteStubLoader extends ClassLoader{
         try {
             c = Class.forName(implClassName + RemoteStub.STUB_SUFFIX);
         } catch (ClassNotFoundException e) {
-            LOG.debug("Try to download stub class for " + implClassName + " from remote");
             c = getRemoteStubClass();
         }
         return c;
@@ -97,7 +96,9 @@ public class RemoteStubLoader extends ClassLoader{
     private byte[] getClassFileByte(String className)
             throws IOException{
         String classPath = className.replaceAll("\\.", "/") + ".class";
-        URL url = new URL("http://" + host + ":" + port + RemoteStub.HTTP_URI + classPath);
+        String urlStr = "http://" + host + ":" + port + RemoteStub.HTTP_URI + classPath;
+        URL url = new URL(urlStr);
+        LOG.debug("Try to download stub class for " + implClassName + " from " + urlStr + " ...");
         BufferedInputStream in = new BufferedInputStream(url.openStream());
         byte buffer[] = new byte[READ_BUFFER_SIZE];
         int length;
@@ -108,6 +109,7 @@ public class RemoteStubLoader extends ClassLoader{
         byte[] classFileBytes = out.toByteArray();
         in.close();
         out.close();
+        LOG.debug("Downloaded!");
         return classFileBytes;
     }
 }
