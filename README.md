@@ -33,6 +33,9 @@ Usage: jrmi-server [options]
     -p, --port
        the listening port of remote server
        Default: 15440
+    -tp, --http-port
+       the listening port of http server for downloading stub files
+       Default: 15213           
     -rh, --registry-host
        the host of registry server
     -rp, --registry-port
