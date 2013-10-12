@@ -53,7 +53,8 @@ public class RMICompiler {
     }
 
     /**
-     * Compile to stub
+     * Generate the stub files. It first load class paths. Then generate
+     * the stub files
      */
     public void compile()
             throws UnsupportedClassException, ClassNotFoundException, IOException {
@@ -69,7 +70,7 @@ public class RMICompiler {
     }
 
     /**
-     * Create url Class Loader for class.
+     * Load class paths.
      * 
      * @throws MalformedURLException
      */
@@ -87,10 +88,10 @@ public class RMICompiler {
     }
 
     /**
-     * Start writing Stub file
+     * Generate the stub file for a remote class
      * 
-     * @param remoteClass
-     * @param out
+     * @param remoteClass the remote class
+     * @param out the output writer
      * 
      */
     private void writeStub(RemoteClass remoteClass, IndentingWriter out)
@@ -154,6 +155,13 @@ public class RMICompiler {
         out.flush();
     }
 
+    /**
+     * Generate the constructors for the stub class
+     *
+     * @param implClass the remote class
+     * @param out the output writer
+     * @throws IOException
+     */
     private void writeStubConstructors(Class implClass, IndentingWriter out)
             throws IOException{
         out.plnI("public " + nameStubClass(implClass) +
@@ -167,6 +175,13 @@ public class RMICompiler {
         out.pOln("}");
     }
 
+    /**
+     * Generate method declarations for the stub class
+     *
+     * @param remoteMethods all remote methods
+     * @param out the output writer
+     * @throws IOException
+     */
     private void writeMethodFieldDeclarations(Method remoteMethods[], IndentingWriter out)
             throws IOException{
         for(int i = 0; i < remoteMethods.length; i++){
@@ -176,6 +191,13 @@ public class RMICompiler {
         }
     }
 
+    /**
+     * Generate initializers of remote methods
+     *
+     * @param remoteMethods all remote methods
+     * @param out the output writer
+     * @throws IOException
+     */
     private void writeMethodFieldInitializers(Method remoteMethods[], IndentingWriter out)
             throws IOException{
         for(int i = 0; i < remoteMethods.length; i++){
@@ -194,6 +216,15 @@ public class RMICompiler {
         }
     }
 
+    /**
+     * Generate the a remote method to a output writer
+     *
+     * @param method the remote method
+     * @param index the index number of method in the remote class
+     * @param out the output writer
+     * @throws IOException
+     * @throws UnsupportedClassException
+     */
     private void writeStubMethod(Method method, int index, IndentingWriter out)
             throws IOException, UnsupportedClassException {
         String methodName = method.getName();
@@ -242,18 +273,44 @@ public class RMICompiler {
         out.pOln("}");
     }
 
+    /**
+     * Generate the stub class name
+     *
+     * @param implClass the remote class
+     * @return class name of stub
+     */
     private String nameStubClass(Class implClass){
         return implClass.getSimpleName() + RemoteStub.STUB_SUFFIX;
     }
 
+    /**
+     * Generate the method name of the stub class
+     *
+     * @param method the remote method
+     * @param index the index number of the remote method
+     * @return method name
+     */
     private String nameMethodField(Method method, int index){
         return "$method_" + method.getName() + "_" + index;
     }
 
+    /**
+     * Generate the parameter name of a stub class's method
+     *
+     * @param index the index of the parameter
+     * @return the parameter name
+     */
     private static String nameParameters(int index) {
         return "$param_" + index;
     }
 
+    /**
+     * Marshal the primitive type to <code>java.lang.Object</code>
+     *
+     * @param returnType the primitive return type
+     * @return the class name
+     * @throws UnsupportedClassException
+     */
     private String marshalReturnType(Class returnType)
             throws UnsupportedClassException {
         if(returnType.isPrimitive()){
