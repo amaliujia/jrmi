@@ -1,5 +1,7 @@
-package edu.cmu.courses.rmi;
+package edu.cmu.courses.rmi.server;
 
+import edu.cmu.courses.rmi.Remote;
+import edu.cmu.courses.rmi.RemoteRef;
 import edu.cmu.courses.rmi.utils.Util;
 
 import java.lang.reflect.Method;
@@ -31,7 +33,7 @@ public class RemoteRefTable {
      * @param obj the remote object
      */
     public static void addObject(RemoteRef ref, Remote obj){
-        table.put(ref.id, obj);
+        table.put(ref.getId(), obj);
         if(!methodHashes.containsKey(obj.getClass().getName())){
             calculateObjectMethodsHash(obj);
         }
@@ -44,7 +46,7 @@ public class RemoteRefTable {
      * @return the remote object
      */
     public static Remote findObject(RemoteRef ref){
-        return table.get(ref.id);
+        return table.get(ref.getId());
     }
 
     /**
