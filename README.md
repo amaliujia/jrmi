@@ -72,7 +72,7 @@ After a couple of seconds, you will get the value of PI.
 We offered `jrmi-compiler` to generate the stub files for remote interface. Here's the options of `jrmi-compiler`:
 
 <pre>
-$ ./jrmi-compiler -h
+$ dist/bin/jrmi-compiler -h
 Usage: jrmi-compiler [options] package-qualified-class-name(s)
   Options:
     -cp, --classpath
