@@ -13,6 +13,7 @@
     <groupId>edu.cmu.courses</groupId>
     <artifactId>calculatepi-common</artifactId>
     <version>1.0</version>
+    <name>${artifactId}</name>
 
     <properties>
         <project.root>${basedir}/../../..</project.root>

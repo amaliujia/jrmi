@@ -123,6 +123,10 @@ public class RemoteRef implements Serializable {
         return id;
     }
 
+    public String getClassName(){
+        return className;
+    }
+
     /**
      * format the reference information
      */

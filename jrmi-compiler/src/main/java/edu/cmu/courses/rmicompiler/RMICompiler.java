@@ -20,6 +20,8 @@ import java.util.List;
 public class RMICompiler {
     private static RMICompiler singleton = null;
 
+    private static final String PROGRAM_NAME = "jrmi-compiler";
+
     @Parameter(names = {"-cp", "--classpath"},
                description = "the path jrmi-compiler uses to look up classes.")
     private List<String> classPaths = new ArrayList<String>();
@@ -351,6 +353,7 @@ public class RMICompiler {
             throws UnsupportedClassException, IOException, ClassNotFoundException {
         RMICompiler compiler = RMICompiler.getCompiler();
         JCommander jCommander = new JCommander(compiler, args);
+        jCommander.setProgramName(PROGRAM_NAME);
         if(compiler.needHelp()){
             jCommander.usage();
         } else {

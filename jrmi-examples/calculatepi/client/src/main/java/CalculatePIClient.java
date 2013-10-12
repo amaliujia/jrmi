@@ -16,6 +16,8 @@ import java.io.IOException;
  * @author Fangyu Gao
  */
 public class CalculatePIClient{
+    private static final String PROGRAM_NAME = "calculatepi-client";
+
     @Parameter(names = {"-rh", "--registry-host"},
             description = "the host of registry server")
     private String registryHost = null;
@@ -39,6 +41,7 @@ public class CalculatePIClient{
     public static void main(String[] args) throws IOException, InterruptedException {
         CalculatePIClient client = new CalculatePIClient();
         JCommander jCommander = new JCommander(client, args);
+        jCommander.setProgramName(PROGRAM_NAME);
         if(client.needHelp()){
             jCommander.usage();
         } else {

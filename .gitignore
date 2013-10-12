@@ -5,4 +5,5 @@
 .project
 dist/lib/*
 dist/bin/*.jar
+dist/doc
 target/*

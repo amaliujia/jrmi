@@ -13,6 +13,7 @@
     <groupId>edu.cmu.courses</groupId>
     <artifactId>jrmi-server</artifactId>
     <version>1.0</version>
+    <name>${artifactId}</name>
 
     <properties>
         <project.root>${basedir}/..</project.root>

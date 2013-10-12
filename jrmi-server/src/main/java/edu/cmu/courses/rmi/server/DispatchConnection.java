@@ -4,6 +4,8 @@ import edu.cmu.courses.rmi.*;
 import edu.cmu.courses.rmi.exceptions.ConnectionException;
 import edu.cmu.courses.rmi.exceptions.NoSuchObjectException;
 import edu.cmu.courses.rmi.exceptions.UnmarshalException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -17,6 +19,8 @@ import java.net.Socket;
  * @author Fangyu Gao
  */
 public class DispatchConnection extends RemoteConnection {
+    private static Logger LOG = LoggerFactory.getLogger(DispatchConnection.class);
+
 
     public DispatchConnection(Socket socket)
             throws ConnectionException {
@@ -63,7 +67,6 @@ public class DispatchConnection extends RemoteConnection {
      */
     private void dispatchMethod(Remote obj, Method method)
             throws IOException{
-
         Class<?>[] types = method.getParameterTypes();
         Object[] params = new Object[types.length];
         try{

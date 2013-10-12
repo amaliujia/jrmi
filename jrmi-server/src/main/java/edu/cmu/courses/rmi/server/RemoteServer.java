@@ -1,7 +1,7 @@
 package edu.cmu.courses.rmi.server;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.*;
@@ -19,7 +19,7 @@ public class RemoteServer implements Runnable{
     /**
      * Logger
      */
-    private static Logger LOG = LogManager.getLogger(RemoteServer.class);
+    private static Logger LOG = LoggerFactory.getLogger(RemoteServer.class);
 
     /**
      * Server's port

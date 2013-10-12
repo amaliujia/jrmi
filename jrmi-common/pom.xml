@@ -13,6 +13,7 @@
     <groupId>edu.cmu.courses</groupId>
     <artifactId>jrmi-common</artifactId>
     <version>1.0</version>
+    <name>${artifactId}</name>
 
     <properties>
         <project.root>${basedir}/..</project.root>
@@ -73,16 +74,18 @@
         </plugins>
     </reporting>
 
+
+
     <dependencies>
         <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
-            <version>2.0-beta8</version>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.5</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <version>2.0-beta8</version>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.5</version>
         </dependency>
     </dependencies>
 </project>

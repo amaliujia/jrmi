@@ -14,11 +14,11 @@ import edu.cmu.courses.rmi.server.validators.PoolSizeValidator;
 import edu.cmu.courses.rmi.server.validators.PortValidator;
 import edu.cmu.courses.rmi.server.validators.RemoteFormatValidator;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -35,12 +35,19 @@ import java.util.List;
  * @author Fangyu Gao
  */
 public class RemoteServerMain {
-    private static Logger LOG = LogManager.getLogger(RemoteServerMain.class);
+    private static Logger LOG = LoggerFactory.getLogger(RemoteServerMain.class);
+
+    private static final String PROGRAM_NAME = "jrmi-server";
 
     @Parameter(names = {"-p", "--port"},
                description = "the listening port of remote server",
                validateWith = PortValidator.class)
     private int port = 15440;
+
+    @Parameter(names = {"-tp", "--http-port"},
+            description = "the listening port of http server for downloading stub files",
+            validateWith = PortValidator.class)
+    private int httpPort = RemoteStub.STUB_PORT;
 
     @Parameter(names = {"-R", "--as-registry-server"},
                description = "start up as a registry server")
@@ -135,7 +142,7 @@ public class RemoteServerMain {
     /**
      * Register remote object in registry.
      * 
-     * @throws IOEXception 
+     * @throws IOException
      */
     private boolean registerRemoteClasses() throws IOException{
         for(String remote: remotes){
@@ -158,6 +165,7 @@ public class RemoteServerMain {
         if(registerRemoteClasses()){
             startStubServer();
             serverThread.start();
+            LOG.info("RMI server is listening now!");
             serverThread.join();
         }
     }
@@ -173,6 +181,7 @@ public class RemoteServerMain {
         server = new RemoteServer(registryHost, registryPort, poolSize);
         serverThread = new Thread(server);
         serverThread.start();
+        LOG.info("Registry server is listening now!");
         serverThread.join();
     }
 
@@ -193,7 +202,7 @@ public class RemoteServerMain {
      * Start stub server.
      */
     private void startStubServer() throws Exception {
-        Server server = new Server(RemoteStub.STUB_PORT);
+        Server server = new Server(httpPort);
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.setContextPath("/");
         context.addServlet(new ServletHolder(new StubClassDownloadHandler()), RemoteStub.HTTP_URI + "*");
@@ -212,6 +221,7 @@ public class RemoteServerMain {
         try {
             main = new RemoteServerMain();
             JCommander jCommander = new JCommander(main, args);
+            jCommander.setProgramName(PROGRAM_NAME);
             if(main.needHelp()){
                 jCommander.usage();
             } else {
@@ -221,7 +231,7 @@ public class RemoteServerMain {
             LOG.error("can't get this machine's address", e);
             System.exit(-1);
         } catch (Exception e) {
-            LOG.error(e);
+            LOG.error("", e);
         }
     }
 }

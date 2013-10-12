@@ -14,6 +14,7 @@
     <artifactId>jrmi-examples</artifactId>
     <version>1.0</version>
     <packaging>pom</packaging>
+    <name>${artifactId}</name>
 
     <properties>
         <project.root>${basedir}/..</project.root>
