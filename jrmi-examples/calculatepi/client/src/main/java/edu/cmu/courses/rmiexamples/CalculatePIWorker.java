@@ -1,5 +1,7 @@
+package edu.cmu.courses.rmiexamples;
+
 /**
- * The <code>CalculatePIWorker</code> perform
+ * The <code>edu.cmu.courses.rmiexamples.CalculatePIWorker</code> perform
  * operations to PI. It implements the
  * <code>Runnable</code> interface.
  *
@@ -26,8 +28,8 @@ public class CalculatePIWorker implements Runnable {
     /**
      * Constructor
      * 
-     * @param calculator, operation interface
-     * @param index, number iterations already done
+     * @param calculator operation interface
+     * @param index number iterations already done
      */
     public CalculatePIWorker(CalculatePI calculator, int index){
         this.calculator = calculator;

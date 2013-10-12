@@ -29,7 +29,7 @@ public class RegistryImpl implements Registry {
     /**
      * Look up a service name in the registry.
      * 
-     * @param serviceName, the name of service
+     * @param serviceName the name of service
      * @return a reference to a remote object
      * @throws RemoteException
      */
@@ -42,8 +42,8 @@ public class RegistryImpl implements Registry {
     /**
      * Bind a service name to a remote object referece.
      * 
-     * @param serviceName, the name of service
-     * @param ref, remote object reference.
+     * @param serviceName the name of service
+     * @param ref remote object reference.
      * @throws RemoteException
      * @throws AlreadyBoundException
      */
@@ -57,7 +57,7 @@ public class RegistryImpl implements Registry {
     /**
      * Unbind a service name.
      * 
-     * @param serviceName, the service name to unbind.
+     * @param serviceName the service name to unbind.
      * @throws RemoteException
      * @throws NotBoundException
      */
@@ -70,8 +70,8 @@ public class RegistryImpl implements Registry {
     /**
      * Bind a service name to a remote object reference.
      * 
-     * @param serviceName, service name to unbind.
-     * @param ref, remote reference
+     * @param serviceName service name to unbind.
+     * @param ref remote reference
      * @throws RemoteException
      */
     @Override

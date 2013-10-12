@@ -1,7 +1,9 @@
+package edu.cmu.courses.rmiexamples;
+
 import edu.cmu.courses.rmi.Remote;
 import edu.cmu.courses.rmi.exceptions.RemoteException;
 /**
- * Contains the CalculatePI interfaces
+ * Contains the edu.cmu.courses.rmiexamples.CalculatePI interfaces
  * 
  * @author Jian Fang
  * @author Fangyu Gao

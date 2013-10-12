@@ -25,7 +25,7 @@ public class StubClassDownloadHandler extends HttpServlet {
     /**
      * Parse the client request to get the URL of stub class.
      * 
-     * @param request, client request.
+     * @param request client request.
      * @return URL of stub class.
      */
     private static URL getClassResource(HttpServletRequest request){
@@ -47,8 +47,8 @@ public class StubClassDownloadHandler extends HttpServlet {
      * Deal with client stub download request and return
      * the stub class to client.
      *
-     * @param request, client request.
-     * @param response, server response
+     * @param request client request.
+     * @param response server response
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

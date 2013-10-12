@@ -54,7 +54,7 @@ public class RemoteRefTable {
      *
      * @param remote the remote object
      * @param methodHash the hash value
-     * @return
+     * @return the method
      */
     public static Method findObjectMethod(Remote remote, long methodHash){
         Map<Long, Method> map = methodHashes.get(remote.getClass().getName());

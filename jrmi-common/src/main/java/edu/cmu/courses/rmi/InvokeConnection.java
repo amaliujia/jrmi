@@ -30,7 +30,7 @@ public class InvokeConnection extends RemoteConnection {
      * @param method
      * @param methodHash
      * @param params
-     * @return
+     * @return the return object
      */
     public Object invoke(RemoteRef ref, Method method, long methodHash, Object[] params)
             throws Exception{

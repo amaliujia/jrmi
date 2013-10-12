@@ -32,7 +32,7 @@ public final class LocateRegistry {
     /**
      * Get the stub for registry
      * 
-     * @param port, port number
+     * @param port port number
      * @return registry stub
      * @throws IOException
      */
@@ -43,7 +43,7 @@ public final class LocateRegistry {
     /**
      * Get the stub for registry
      * 
-     * @param host, host name
+     * @param host host name
      * @return registry stub
      * @throws IOException
      */
@@ -55,8 +55,8 @@ public final class LocateRegistry {
     /**
      * Get the stub for registry
      * 
-     * @param host, host name
-     * @param port, registry port
+     * @param host host name
+     * @param port registry port
      */
     public static Registry getRegistry(String host, int port)
             throws IOException{

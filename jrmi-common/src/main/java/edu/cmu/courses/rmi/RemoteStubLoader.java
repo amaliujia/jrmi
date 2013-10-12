@@ -48,9 +48,9 @@ public class RemoteStubLoader extends ClassLoader{
     /**
      * constuctor 
      * 
-     * @param host, host name 
-     * @param port, port number
-     * @param implClassName, the name of implementation class
+     * @param host host name
+     * @param port port number
+     * @param implClassName the name of implementation class
      */
 	public RemoteStubLoader(String host, int port, String implClassName){
 		this.host = host;
@@ -70,7 +70,7 @@ public class RemoteStubLoader extends ClassLoader{
         try {
             c = Class.forName(implClassName + RemoteStub.STUB_SUFFIX);
         } catch (ClassNotFoundException e) {
-            LOG.info("Try to download stub class " + implClassName + " from remote");
+            LOG.debug("Try to download stub class for " + implClassName + " from remote");
             c = getRemoteStubClass();
         }
         return c;
@@ -90,7 +90,7 @@ public class RemoteStubLoader extends ClassLoader{
 	/**
 	 * Using class file URL to get class file from server.
 	 * 
-	 * @param className, the name of class
+	 * @param className the name of class
 	 * @return byte[], byte file data
 	 * @throws IOException
 	 */

@@ -1,3 +1,5 @@
+package edu.cmu.courses.rmiexamples;
+
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.validators.PositiveInteger;
@@ -7,7 +9,7 @@ import edu.cmu.courses.rmi.Registry;
 
 import java.io.IOException;
 /**
- * The <code>CalculatePIClient</code> is exaple of 
+ * The <code>edu.cmu.courses.rmiexamples.CalculatePIClient</code> is exaple of
  * using the our framework. It uses remote method
  * invocation to calculating PI with the help
  * of server.

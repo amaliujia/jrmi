@@ -45,30 +45,11 @@
         </plugins>
     </build>
 
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.9.1</version>
-                <configuration>
-                    <reportOutputDirectory>${project.root}/dist/doc</reportOutputDirectory>
-                    <destDir>doc</destDir>
-                </configuration>
-            </plugin>
-        </plugins>
-    </reporting>
-
     <dependencies>
         <dependency>
             <groupId>edu.cmu.courses</groupId>
             <artifactId>calculatepi-common</artifactId>
             <version>1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.beust</groupId>
-            <artifactId>jcommander</artifactId>
-            <version>1.30</version>
         </dependency>
     </dependencies>
 </project>

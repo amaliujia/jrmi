@@ -1,5 +1,9 @@
+package edu.cmu.courses.rmiexamples;
+
+import edu.cmu.courses.rmiexamples.CalculatePI;
+
 /**
- * The implementation of CalculatePI interface.
+ * The implementation of edu.cmu.courses.rmiexamples.CalculatePI interface.
  * 
  * @author Jian Fang
  * @author Fangyu Gao
@@ -17,7 +21,7 @@ public class CalculatePIImpl implements CalculatePI {
 
     /**
      * Calculate reciprocal squre of a number
-     * @param n, intput integer
+     * @param n intput integer
      * @return 1/(n^2)
      */
     @Override
@@ -29,8 +33,8 @@ public class CalculatePIImpl implements CalculatePI {
     /**
      * Calculate sum reciprocal squre of n1 to n2.
      * 
-     * @param n1, start integer
-     * @param n2, end integer
+     * @param n1 start integer
+     * @param n2 end integer
      * @return 1/(n1^2)+...+1/(n2*2)
      */
     @Override
@@ -46,7 +50,7 @@ public class CalculatePIImpl implements CalculatePI {
     /**
      * The last step of calculating PI
      * 
-     * @param x, input
+     * @param x input
      * @return (6x)^(1/2)
      */
     @Override
