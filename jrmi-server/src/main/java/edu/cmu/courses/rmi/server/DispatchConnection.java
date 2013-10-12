@@ -9,6 +9,13 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.Socket;
 
+/**
+ * The <code>DispatchConnection</code> handle the RMI request
+ * from the client and return values back to client.
+ *
+ * @author Jian Fang
+ * @author Fangyu Gao
+ */
 public class DispatchConnection extends RemoteConnection {
 
     public DispatchConnection(Socket socket)
@@ -77,7 +84,10 @@ public class DispatchConnection extends RemoteConnection {
             exceptionReturn(e);
         }
     }
-
+    
+    /**
+     * return void without exception
+     */
     private void normalReturn()
             throws IOException{
         out.writeByte(ConnectionConstants.RETURN);
@@ -85,6 +95,12 @@ public class DispatchConnection extends RemoteConnection {
         out.flush();
     }
 
+    /**
+     * return value without exception
+     * 
+     * @param type, the return class
+     * @param result, the return object
+     */
     private void normalReturn(Class<?> type, Object result)
             throws IOException{
         out.writeByte(ConnectionConstants.RETURN);
@@ -93,6 +109,11 @@ public class DispatchConnection extends RemoteConnection {
         out.flush();
     }
 
+    /**
+     * return the exception
+     * 
+     * @param e, excetion
+     */
     private void exceptionReturn(Exception e)
             throws IOException {
         out.writeByte(ConnectionConstants.RETURN);

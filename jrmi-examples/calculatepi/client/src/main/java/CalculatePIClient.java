@@ -6,7 +6,15 @@ import edu.cmu.courses.rmi.LocateRegistry;
 import edu.cmu.courses.rmi.Registry;
 
 import java.io.IOException;
-
+/**
+ * The <code>CalculatePIClient</code> is exaple of 
+ * using the our framework. It uses remote method
+ * invocation to calculating PI with the help
+ * of server.
+ *
+ * @author Jian Fang
+ * @author Fangyu Gao
+ */
 public class CalculatePIClient{
     @Parameter(names = {"-rh", "--registry-host"},
             description = "the host of registry server")
@@ -25,6 +33,9 @@ public class CalculatePIClient{
             help = true)
     private boolean help;
 
+    /**
+     * start point of client
+     */
     public static void main(String[] args) throws IOException, InterruptedException {
         CalculatePIClient client = new CalculatePIClient();
         JCommander jCommander = new JCommander(client, args);
@@ -39,6 +50,10 @@ public class CalculatePIClient{
         return help;
     }
 
+    /**
+     * Calculating PI using multiple threads. We can see
+     * our framework of invocation still working with heavy load.
+     */
     private void startCalculate() throws IOException, InterruptedException {
         Registry registry = LocateRegistry.getRegistry(registryHost, registryPort);
         RemoteRef ref = registry.lookup("calculatePI");

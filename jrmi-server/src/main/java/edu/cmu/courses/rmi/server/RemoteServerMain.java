@@ -25,6 +25,15 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The <code>RemoteServerMain</code> class is the start point
+ * of the server. It can be select to start a registry service
+ * or a rmi service. The rmi service contains a stub service
+ * that enable client to download stub.
+ *
+ * @author Jian Fang
+ * @author Fangyu Gao
+ */
 public class RemoteServerMain {
     private static Logger LOG = LogManager.getLogger(RemoteServerMain.class);
 
@@ -60,10 +69,20 @@ public class RemoteServerMain {
             help = true)
     private boolean help;
 
+    /**
+     * host name
+     */
     private String host;
+    
+    /**
+     * host name
+     */
     private RemoteServer server;
     private Thread serverThread;
 
+    /**
+     * Defult constructor, set the host.
+     */
     public RemoteServerMain() throws UnknownHostException {
         host = Util.getHost();
     }
@@ -72,6 +91,13 @@ public class RemoteServerMain {
         return help;
     }
 
+    /**
+     * Register the romote class to registry
+     * 
+     * @param className, name of class
+     * @param serviceName, name of service that client
+     * can look up with
+     */
     private boolean registerRemoteClass(String className, String serviceName) throws IOException{
         Class c;
         Remote obj;
@@ -106,6 +132,11 @@ public class RemoteServerMain {
         return true;
     }
 
+    /**
+     * Register remote object in registry.
+     * 
+     * @throws IOEXception 
+     */
     private boolean registerRemoteClasses() throws IOException{
         for(String remote: remotes){
             String[] words = remote.split("@");
@@ -118,6 +149,9 @@ public class RemoteServerMain {
         return true;
     }
 
+    /**
+     * Start rmi service and stub service. . 
+     */
     private void startRMIServer() throws Exception{
         server = new RemoteServer(host, port, poolSize);
         serverThread = new Thread(server);
@@ -128,6 +162,9 @@ public class RemoteServerMain {
         }
     }
 
+    /**
+     * Start the registry server. 
+     */
     private void startRegistryServer() throws Exception{
         RemoteRef ref = new RemoteRef(host, port,
                 RegistryImpl.class.getName(), Registry.REGISTRY_OBJID);
@@ -139,6 +176,11 @@ public class RemoteServerMain {
         serverThread.join();
     }
 
+    /**
+     * If asRegistry, start the registry server. Else, start
+     * an normal server with rmi service with stub service.
+     *
+     */
     private void startServer() throws Exception{
         if(asRegistry){
             startRegistryServer();
@@ -147,6 +189,9 @@ public class RemoteServerMain {
         }
     }
 
+    /**
+     * Start stub server.
+     */
     private void startStubServer() throws Exception {
         Server server = new Server(RemoteStub.STUB_PORT);
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
@@ -156,6 +201,8 @@ public class RemoteServerMain {
         server.start();
     }
     /**
+     * The main function of server.
+     * Parsing command line and start server.
      *
      * @param args program augments
      * @see edu.cmu.courses.rmi.server.RemoteServerMain#RemoteServerMain()

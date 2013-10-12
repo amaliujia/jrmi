@@ -4,6 +4,13 @@ import edu.cmu.courses.rmi.exceptions.AlreadyBoundException;
 import edu.cmu.courses.rmi.exceptions.NotBoundException;
 import edu.cmu.courses.rmi.exceptions.RemoteException;
 
+/**
+ * Contains the registry interfaces
+ * 
+ * @author Jian Fang
+ * @author Fangyu Gao
+ *
+ */
 public interface Registry extends Remote {
     public static final int REGISTRY_PORT = 15640;
     public static final int REGISTRY_OBJID = 0x0;

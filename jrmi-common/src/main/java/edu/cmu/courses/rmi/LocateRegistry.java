@@ -18,23 +18,42 @@ public final class LocateRegistry {
 
     private LocateRegistry(){}
 
+    /**
+     * Get the stub for registry
+     * 
+     * @return registry stub
+     * @throws IOException
+     */
     public static Registry getRegistry()
             throws IOException{
         return getRegistry(null, Registry.REGISTRY_PORT);
     }
-
+    
+    /**
+     * Get the stub for registry
+     * 
+     * @param port, port number
+     * @return registry stub
+     * @throws IOException
+     */
     public static Registry getRegistry(int port)
             throws IOException{
         return getRegistry(null, port);
     }
-
+    /**
+     * Get the stub for registry
+     * 
+     * @param host, host name
+     * @return registry stub
+     * @throws IOException
+     */
     public static Registry getRegistry(String host)
             throws IOException{
         return getRegistry(host, Registry.REGISTRY_PORT);
     }
 
     /**
-     * Get or generate a local registry
+     * Get the stub for registry
      * 
      * @param host, host name
      * @param port, registry port

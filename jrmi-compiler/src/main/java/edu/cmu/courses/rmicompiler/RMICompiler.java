@@ -52,6 +52,9 @@ public class RMICompiler {
         return singleton;
     }
 
+    /**
+     * Compile to stub
+     */
     public void compile()
             throws UnsupportedClassException, ClassNotFoundException, IOException {
         loadClassPath();
@@ -65,6 +68,11 @@ public class RMICompiler {
         }
     }
 
+    /**
+     * Create url Class Loader for class.
+     * 
+     * @throws MalformedURLException
+     */
     private void loadClassPath() throws MalformedURLException {
         URL urls[] = new URL[classPaths.size()];
         for(int i = 0; i < classPaths.size(); i++){
@@ -78,6 +86,13 @@ public class RMICompiler {
         urlClassLoader = new URLClassLoader(urls, RMICompiler.class.getClassLoader());
     }
 
+    /**
+     * Start writing Stub file
+     * 
+     * @param remoteClass
+     * @param out
+     * 
+     */
     private void writeStub(RemoteClass remoteClass, IndentingWriter out)
             throws IOException, UnsupportedClassException {
         Class implClass = remoteClass.getImplClass();
@@ -267,6 +282,14 @@ public class RMICompiler {
         }
     }
 
+    /**
+     * Start point of RMI compiler
+     * 
+     * @param args
+     * @throws UnsupportedClassException
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     public static void main(String[] args)
             throws UnsupportedClassException, IOException, ClassNotFoundException {
         RMICompiler compiler = RMICompiler.getCompiler();

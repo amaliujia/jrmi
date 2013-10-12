@@ -8,11 +8,11 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 
 /**
- * Created with IntelliJ IDEA.
- * User: frank
- * Date: 10/3/13
- * Time: 2:03 PM
- * To change this template use File | Settings | File Templates.
+ * The <code>InvokeConnection</code> make connection
+ * to server and read the return value.
+ *
+ * @author Jian Fang
+ * @author Fangyu Gao
  */
 public class InvokeConnection extends RemoteConnection {
     public InvokeConnection(String host, int port)

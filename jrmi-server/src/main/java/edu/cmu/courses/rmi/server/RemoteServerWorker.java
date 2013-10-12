@@ -37,7 +37,7 @@ public class RemoteServerWorker implements Runnable {
     }
 
     /**
-     * Start doing job
+     * Start invocation
      */
     @Override
     public void run() {
